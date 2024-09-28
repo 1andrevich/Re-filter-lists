@@ -16,18 +16,18 @@ on:
 
 jobs:
   build_geoip:
-    name: Build geoip.dat (from antifilter-geoip)
+    name: Build geoip.dat (from refilter-geoip)
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout antifilter-geoip
+      - name: Checkout refilter-geoip
         uses: actions/checkout@v4
         with:
-          path: ./antifilter-geoip
+          path: ./refilter-geoip
 
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: ./antifilter-geoip/go.mod
+          go-version-file: ./refilter-geoip/go.mod
 
       - name: Set variables for geoip
         run: |
@@ -36,11 +36,11 @@ jobs:
         shell: bash
 
       - name: Build geoip.dat
-        run: go run ./antifilter-geoip/main.go
+        run: go run ./refilter-geoip/main.go
 
       - name: Generate sha256 checksum for geoip.dat files
         run: |
-          cd ./antifilter-geoip/output/dat || exit 1
+          cd ./refilter-geoip/output/dat || exit 1
           for name in $(ls *.dat); do
             sha256sum ${name} > ./${name}.sha256sum
           done
@@ -48,7 +48,7 @@ jobs:
       - name: Move geoip files to publish directory
         run: |
           mkdir -p publish
-          mv ./antifilter-geoip/output/dat/*.dat ./antifilter-geoip/output/dat/*.sha256sum ./publish
+          mv ./refilter-geoip/output/dat/*.dat ./refilter-geoip/output/dat/*.sha256sum ./publish
 
       - name: Release and upload geoip assets
         run: |
@@ -59,18 +59,18 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
   build_geosite:
-    name: Build geosite.dat (from antifilter-domain)
+    name: Build geosite.dat (from refilter-domain)
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout antifilter-domain
+      - name: Checkout refilter-domain
         uses: actions/checkout@v4
         with:
-          path: ./antifilter-domain
+          path: ./refilter-domain
 
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: ./antifilter-domain/go.mod
+          go-version-file: ./refilter-domain/go.mod
 
       - name: Set variables for geosite
         run: |
@@ -82,7 +82,7 @@ jobs:
         run: mkdir -p data && cp ./domains_all.lst ./data/refilter
 
       - name: Build geosite.dat
-        run: go run ./antifilter-domain/main.go --exportlists=refilter --outputname=geosite.dat
+        run: go run ./refilter-domain/main.go --exportlists=refilter --outputname=geosite.dat
 
       - name: Generate sha256 hash for geosite.dat
         run: sha256sum geosite.dat > geosite.dat.sha256sum
