@@ -1,0 +1,101 @@
+name: Build geoip.dat and geosite.dat
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 0"
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "README.md"
+      - ".gitignore"
+      - "LICENSE"
+      - "**/dependabot.yml"
+      - "**/README.md"
+
+jobs:
+  build_geoip:
+    name: Build geoip.dat (from antifilter-geoip)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout antifilter-geoip
+        uses: actions/checkout@v4
+        with:
+          path: ./antifilter-geoip
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ./antifilter-geoip/go.mod
+
+      - name: Set variables for geoip
+        run: |
+          echo "TAG_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
+          echo "RELEASE_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Build geoip.dat
+        run: go run ./antifilter-geoip/main.go
+
+      - name: Generate sha256 checksum for geoip.dat files
+        run: |
+          cd ./antifilter-geoip/output/dat || exit 1
+          for name in $(ls *.dat); do
+            sha256sum ${name} > ./${name}.sha256sum
+          done
+
+      - name: Move geoip files to publish directory
+        run: |
+          mkdir -p publish
+          mv ./antifilter-geoip/output/dat/*.dat ./antifilter-geoip/output/dat/*.sha256sum ./publish
+
+      - name: Release and upload geoip assets
+        run: |
+          gh release create ${{ env.TAG_NAME }} -t ${{ env.RELEASE_NAME }} \
+            ./publish/*.dat \
+            ./publish/*.dat.sha256sum
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+  build_geosite:
+    name: Build geosite.dat (from antifilter-domain)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout antifilter-domain
+        uses: actions/checkout@v4
+        with:
+          path: ./antifilter-domain
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ./antifilter-domain/go.mod
+
+      - name: Set variables for geosite
+        run: |
+          echo "RELEASE_NAME=$(date +%Y-%m-%d)" >> $GITHUB_ENV
+          echo "TAG_NAME=$(date +%Y-%m-%d)" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Use local domains file
+        run: mkdir -p data && cp ./domains_all.lst ./data/refilter
+
+      - name: Build geosite.dat
+        run: go run ./antifilter-domain/main.go --exportlists=refilter --outputname=geosite.dat
+
+      - name: Generate sha256 hash for geosite.dat
+        run: sha256sum geosite.dat > geosite.dat.sha256sum
+
+      - name: Move geosite files to publish directory
+        run: |
+          mkdir -p publish
+          mv ./*.dat ./*.sha256sum ./publish
+
+      - name: Release and upload geosite assets
+        run: |
+          gh release create ${{ env.TAG_NAME }} -t ${{ env.RELEASE_NAME }} \
+            ./publish/*.dat \
+            ./publish/*.dat.sha256sum
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
