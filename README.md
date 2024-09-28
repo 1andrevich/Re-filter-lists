@@ -1,15 +1,22 @@
-# Re-filter-lists
-Re:filter is (an attempt to create) a relevant list of blocked domains and IPs in RU + popular and blocked for RU users
-This repo contains all source code for RKN domain list filtration process + (TBD: Regular) Releases of:
-1. V2Fly, Xray: geoip.dat, geosite.dat
-2. Sing-Box: geoip.db, geosite.db
-3. Filtered lists of domains (domains_all.lst) and Summarized IP list (ipsum.lst)
-4. Link for a Public BGP Server where Summarized IP List is used - 165.22.127.207 AS 65412
+# Re:filter
+
+**Re:filter** — это попытка создать актуальный список заблокированных доменов и IP-адресов в РФ, а также популярных и заблокированных для пользователей из России. Этот репозиторий содержит весь исходный код для процесса фильтрации списка доменов РКН, и (в будущем: регулярные) выпуски:
+
+- **V2Fly, Xray**: `geoip.dat`, `geosite.dat`
+- **Sing-Box**: `geoip.db`, `geosite.db`
+- Отфильтрованные списки доменов: `domains_all.lst`
+- Суммированный список IP-адресов: `ipsum.lst`
+- **Публичный BGP сервер**, где используется суммированный список IP-адресов: `165.22.127.207` (AS 65412)
+
+---
+
+**Re:filter** is an attempt to create a relevant list of blocked domains and IPs in Russia, along with popular domains that are also blocked for Russian users. This repository contains all the source code for the RKN domain list filtration process, and (TBD: regular) releases of:
+
+- **V2Fly, Xray**: `geoip.dat`, `geosite.dat`
+- **Sing-Box**: `geoip.db`, `geosite.db`
+- Filtered lists of domains: `domains_all.lst`
+- Summarized IP list: `ipsum.lst`
+- **Public BGP Server** where the summarized IP list is used: `165.22.127.207` (AS 65412)
 
 
-Re:filter — это (попытка создать) актуальный список заблокированных доменов и IP-адресов в РФ + популярных и заблокированных для пользователей из РФ
-Этот репозиторий содержит весь исходный код для процесса фильтрации списка доменов РКН + (в будущем: регулярные) выпуски:
-1. V2Fly, Xray: geoip.dat, geosite.dat
-2. Sing-Box: geoip.db, geosite.db
-3. Отфильтрованные списки доменов (domains_all.lst) и суммированный список IP-адресов (ipsum.lst)
-4. Ссылка на публичный сервер BGP, где используется суммированный список IP-адресов — 165.22.127.207 AS 65412
+
