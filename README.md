@@ -18,14 +18,14 @@
     "rules": [
       {
         "ip": [
-          "ext:geoip.dat:antifilter"
+          "ext:geoip.dat:refilter"
         ],
         "type": "field",
         "outboundTag": "proxy"
       },
       {
         "domain": [
-          "ext:geosite.dat:antifilter-community"
+          "ext:geosite.dat:refilter"
         ],
         "type": "field",
         "outboundTag": "proxy"
@@ -63,14 +63,14 @@
     "rules": [
       {
         "ip": [
-          "ext:geoip.dat:antifilter"
+          "ext:geoip.dat:refilter"
         ],
         "type": "field",
         "outboundTag": "proxy"
       },
       {
         "domain": [
-          "ext:geosite.dat:antifilter-community"
+          "ext:geosite.dat:refilter"
         ],
         "type": "field",
         "outboundTag": "proxy"
