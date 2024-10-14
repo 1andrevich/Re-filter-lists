@@ -44,7 +44,41 @@
 `ip(geoip:refilter)->proxy`  
 `domain(ext:"LoyalsoldierSite.dat:refilter")->proxy`  
 
+## Пример конфигурации bird2 (/etc/bird.conf)
 
+```
+log syslog all;
+log stderr all;
+
+router id $IP;
+
+protocol device {
+    scan time 300;
+}
+
+protocol kernel kernel_routes {
+    scan time 60;
+    ipv4 {
+        import none;
+        export all;
+    };
+}
+
+protocol bgp refilter {
+    ipv4 {
+        import filter {
+            #gw = $IP_GATEWAY;
+            ifname = "$INTERFACE";
+            accept;
+        };
+        export none;
+    };
+    local as $ASN;
+    neighbor 165.22.127.207 as 65412;
+    multihop;
+    hold time 240;
+}
+```
 ---
 
 **Re:filter** is an attempt to create a relevant list of blocked domains and IPs in Russia, along with popular domains that are also blocked for Russian users. This repository contains all the source code for the RKN domain list filtration process, and (TBD: regular) releases of:
@@ -88,6 +122,40 @@ RoutingA of V2RayA Example:
 `ip(geoip:refilter)->proxy`  
 `domain(ext:"LoyalsoldierSite.dat:refilter")->proxy`  
 
+## bird2 config example (/etc/bird.conf)
 
+```
+log syslog all;
+log stderr all;
+
+router id $IP;
+
+protocol device {
+    scan time 300;
+}
+
+protocol kernel kernel_routes {
+    scan time 60;
+    ipv4 {
+        import none;
+        export all;
+    };
+}
+
+protocol bgp refilter {
+    ipv4 {
+        import filter {
+            #gw = $IP_GATEWAY;
+            ifname = "$INTERFACE";
+            accept;
+        };
+        export none;
+    };
+    local as $ASN;
+    neighbor 165.22.127.207 as 65412;
+    multihop;
+    hold time 240;
+}
+```
 
 
