@@ -10,6 +10,41 @@
 - Суммированный список IP-адресов: `ipsum.lst`
 - **Публичный BGP сервер**, где используется суммированный список IP-адресов: `165.22.127.207` (AS 65412)
 
+## Пример использования Xray
+
+```json
+{
+  "routing": {
+    "rules": [
+      {
+        "ip": [
+          "ext:geoip.dat:antifilter"
+        ],
+        "type": "field",
+        "outboundTag": "proxy"
+      },
+      {
+        "domain": [
+          "ext:geosite.dat:antifilter-community"
+        ],
+        "type": "field",
+        "outboundTag": "proxy"
+      },
+      {
+        "type": "field",
+        "outboundTag": "direct"
+      }
+    ]
+  }
+}
+
+```
+Пример RoutingA для V2RayA:
+`default: direct` 
+`ip(geoip:refilter)->proxy` 
+`domain(ext:"LoyalsoldierSite.dat:refilter")->proxy` 
+
+
 ---
 
 **Re:filter** is an attempt to create a relevant list of blocked domains and IPs in Russia, along with popular domains that are also blocked for Russian users. This repository contains all the source code for the RKN domain list filtration process, and (TBD: regular) releases of:
@@ -19,6 +54,40 @@
 - Filtered lists of domains: `domains_all.lst`
 - Summarized IP list: `ipsum.lst`
 - **Public BGP Server** where the summarized IP list is used: `165.22.127.207` (AS 65412)
+
+## Xray config example
+
+```json
+{
+  "routing": {
+    "rules": [
+      {
+        "ip": [
+          "ext:geoip.dat:antifilter"
+        ],
+        "type": "field",
+        "outboundTag": "proxy"
+      },
+      {
+        "domain": [
+          "ext:geosite.dat:antifilter-community"
+        ],
+        "type": "field",
+        "outboundTag": "proxy"
+      },
+      {
+        "type": "field",
+        "outboundTag": "direct"
+      }
+    ]
+  }
+}
+```
+RoutingA of V2RayA Example:
+`default: direct` 
+`ip(geoip:refilter)->proxy` 
+`domain(ext:"LoyalsoldierSite.dat:refilter")->proxy` 
+
 
 
 
