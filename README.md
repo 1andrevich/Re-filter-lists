@@ -73,7 +73,7 @@ protocol bgp refilter {
         };
         export none;
     };
-    local as $ASN;
+    local as 64999;
     neighbor 165.22.127.207 as 65412;
     multihop;
     hold time 240;
@@ -151,7 +151,7 @@ protocol bgp refilter {
         };
         export none;
     };
-    local as $ASN;
+    local as 64999;
     neighbor 165.22.127.207 as 65412;
     multihop;
     hold time 240;
