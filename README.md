@@ -39,10 +39,10 @@
 }
 
 ```
-Пример RoutingA для V2RayA:
-`default: direct` 
-`ip(geoip:refilter)->proxy` 
-`domain(ext:"LoyalsoldierSite.dat:refilter")->proxy` 
+Пример RoutingA для V2RayA:  
+`default: direct`  
+`ip(geoip:refilter)->proxy`  
+`domain(ext:"LoyalsoldierSite.dat:refilter")->proxy`  
 
 
 ---
@@ -83,10 +83,10 @@
   }
 }
 ```
-RoutingA of V2RayA Example:
-`default: direct` 
-`ip(geoip:refilter)->proxy` 
-`domain(ext:"LoyalsoldierSite.dat:refilter")->proxy` 
+RoutingA of V2RayA Example:  
+`default: direct`  
+`ip(geoip:refilter)->proxy`  
+`domain(ext:"LoyalsoldierSite.dat:refilter")->proxy`  
 
 
 
