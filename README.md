@@ -38,6 +38,11 @@
   }
 }
 ```
+Пример RoutingA для V2RayA:  
+`default: direct`  
+`ip(geoip:refilter)->proxy`  
+`domain(ext:"LoyalsoldierSite.dat:refilter")->proxy`  
+
 
 ## Пример использования Sing-Box
 ```json
@@ -78,10 +83,6 @@
   }
 }
 ```
-Пример RoutingA для V2RayA:  
-`default: direct`  
-`ip(geoip:refilter)->proxy`  
-`domain(ext:"LoyalsoldierSite.dat:refilter")->proxy`  
 
 ## Пример конфигурации bird2 (/etc/bird.conf)
 
@@ -156,6 +157,12 @@ protocol bgp refilter {
   }
 }
 ```
+RoutingA of V2RayA Example:  
+`default: direct`  
+`ip(geoip:refilter)->proxy`  
+`domain(ext:"LoyalsoldierSite.dat:refilter")->proxy`  
+
+
 ## Sing-box config example
 
 ```json
@@ -196,11 +203,6 @@ protocol bgp refilter {
   }
 }
 ```
-
-RoutingA of V2RayA Example:  
-`default: direct`  
-`ip(geoip:refilter)->proxy`  
-`domain(ext:"LoyalsoldierSite.dat:refilter")->proxy`  
 
 ## bird2 config example (/etc/bird.conf)
 
