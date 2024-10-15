@@ -48,25 +48,25 @@
     "rules": [
       {
         "rule_set": [
-          "refilter-domains",
-          "refilter-ips"
+          "refilter_domains",
+          "refilter_ipsum"
         ],
         "outbound": "proxy"
       }
     ],
     "rule_set": [
       {
-        "tag": "refilter-domains",
+        "tag": "refilter_domains",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs",
         "download_detour": "direct"
       },
       {
-        "tag": "refilter-ips",
+        "tag": "refilter_ipsum",
         "type": "remote",
         "format": "binary",
-        "url": "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs",
+        "url": "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs",
         "download_detour": "direct"
       }
     ]
@@ -166,25 +166,25 @@ protocol bgp refilter {
     "rules": [
       {
         "rule_set": [
-          "refilter-domains",
-          "refilter-ips"
+          "refilter_domains",
+          "refilter_ipsum"
         ],
         "outbound": "proxy"
       }
     ],
     "rule_set": [
       {
-        "tag": "refilter-domains",
+        "tag": "refilter_domains",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs",
         "download_detour": "direct"
       },
       {
-        "tag": "refilter-ips",
+        "tag": "refilter_ipsum",
         "type": "remote",
         "format": "binary",
-        "url": "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs",
+        "url": "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-ip-refilter_ipsum.srs",
         "download_detour": "direct"
       }
     ]
