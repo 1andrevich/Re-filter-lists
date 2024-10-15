@@ -37,7 +37,46 @@
     ]
   }
 }
+```
 
+## Пример использования Sing-Box
+```json
+{
+  "route": {
+    "final": "direct",
+    "auto_detect_interface": true,
+    "rules": [
+      {
+        "rule_set": [
+          "refilter-domains",
+          "refilter-ips"
+        ],
+        "outbound": "proxy"
+      }
+    ],
+    "rule_set": [
+      {
+        "tag": "refilter-domains",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "refilter-ips",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs",
+        "download_detour": "direct"
+      }
+    ]
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true
+    }
+  }
+}
 ```
 Пример RoutingA для V2RayA:  
 `default: direct`  
@@ -117,6 +156,47 @@ protocol bgp refilter {
   }
 }
 ```
+## Sing-box config example
+
+```json
+{
+  "route": {
+    "final": "direct",
+    "auto_detect_interface": true,
+    "rules": [
+      {
+        "rule_set": [
+          "refilter-domains",
+          "refilter-ips"
+        ],
+        "outbound": "proxy"
+      }
+    ],
+    "rule_set": [
+      {
+        "tag": "refilter-domains",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "refilter-ips",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/1andrevich/Re-filter-lists/releases/latest/download/ruleset-domain-refilter_domains.srs",
+        "download_detour": "direct"
+      }
+    ]
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true
+    }
+  }
+}
+```
+
 RoutingA of V2RayA Example:  
 `default: direct`  
 `ip(geoip:refilter)->proxy`  
