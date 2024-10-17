@@ -1,0 +1,21 @@
+name: Trigger Shadowrocket Workflow
+
+on:
+  push:
+    branches:
+      - main  # Adjust if necessary
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Send Repository Dispatch Event
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      run: |
+        curl -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: token $GH_TOKEN" \
+          https://api.github.com/repos/lrlunin/shadowrocket-config/dispatches \
+          -d '{"event_type": "re_filter_lists_update"}'
