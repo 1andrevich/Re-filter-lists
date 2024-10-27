@@ -31,6 +31,7 @@ arc.intel.com
 artifacts.elastic.co
 atlassian.com
 auth.grazie.ai
+auth0.openai.com
 bard.google.com
 bbci.co.uk
 bitbucket.org
@@ -41,6 +42,7 @@ boosteroid.com
 bosch-home.com
 bradyid.com
 builds.parsec.app
+bungiestore.com
 canva.com
 cdn.id.supercell.com
 cdn.oaistatic.com
@@ -138,7 +140,6 @@ discord.dev
 discord.new
 discord.gift
 discord.co
-download.nvidia.com
 dw.com
 edge.microsoft.com
 edgeservices.bing.com
@@ -229,7 +230,8 @@ myworld-portal.leica-geosystems.com
 netflix.com
 nih.gov
 nordvpn.com
-www.nordvpn.com
+nordaccount.com
+nordcdn.com
 notion.com
 ntc.party
 nyaa.si
@@ -282,7 +284,6 @@ repo.mongodb.org
 republic.ru
 resp.app
 rpm.grafana.com
-ru.download.nvidia.com
 ru.depositphotos.com
 stream.voidboost.cc
 fingerium.stream.voidboost.cc
