@@ -33,62 +33,44 @@ jobs:
     - name: Run OONI Parser (ooni_domains.lst)
       run: python "src/step 5 ooni list/ooni_list.py"
 
-    - name: Verify OONI Parser Output
-      run: |
-        echo "Files in sum/input after OONI Parser:"
-        ls -la sum/input
 
 ##Community.lst and Domains.lst are already in the sum/input folder
 
     - name: Run Domain Sum Up script (domains_all.lst)
       run: python "src/step 5 ooni list/domain_sum.py"
 
-    - name: Verify Domain Sum Output
-      run: |
-        echo "Files in sum/output after Domain Sum:"
-        ls -la sum/output
 
     - name: Run OONI Resolver script (ooni_ips.lst)
       run: python "src/step 5 ooni list/resolver_ooni.py"
 
-    - name: Verify OONI Resolver Output
-      run: |
-        echo "Files in sum/input after OONI Resolver:"
-        ls -la sum/input
 
     - name: Run Community Resolver script (ip_community.lst)
       run: python "src/step 5 ooni list/resolver_community.py"
 
-    - name: Verify Community Resolver Output
-      run: |
-        echo "Files in sum/input after Community Resolver:"
-        ls -la sum/input
 
     - name: Run IP Sum (Temp) script (ips_all.lst)
       run: python "src/step 5 ooni list/ip_4files_sum.py"
 
-    - name: Verify IP Sum Temp Output
-      run: |
-        echo "Files in sum/input after IP Sum Temp:"
-        ls -la sum/input
 
     - name: Run IP Sum + ASN (Final) script (ipsum.lst)
       run: python "src/step 5 ooni list/ipsum_bgp.py"
 
-    - name: Verify Ipsum Output
-      run: |
-        echo "Files in sum/output after Ipsum Sum:"
-        ls -la sum/output
 
     - name: Run Bird2 Converter script
       run: python "src/step 5 ooni list/bird2_converter.py"
-
-    - name: Verify Bird2 Output
-      run: |
-        echo "Files in sum/output after Bird2 Converter:"
-        ls -la sum/output
 
     - name: Convert files to LF (Unix format)
       run: |
         sudo apt-get update && sudo apt-get install -y dos2unix
         find . -type f -name "*.lst" -exec dos2unix {} +
+        
+    - name: Verify Output
+      run: |
+        echo "Files in sum/output after build:"
+        ls -la sum/output
+        
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-results
+        path: sum/
