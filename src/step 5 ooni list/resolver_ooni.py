@@ -74,7 +74,7 @@ def process_domain(domain, existing_cidrs):
         return set()
 
 # Function to read domains from domains.lst file
-def read_domains_from_file(file_path="ooni_domains.lst"):
+def read_domains_from_file(file_path="input/ooni_domains.lst"):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             domains = [line.strip() for line in f.readlines() if line.strip()]
@@ -85,7 +85,7 @@ def read_domains_from_file(file_path="ooni_domains.lst"):
         return []
 
 # Function to write CIDRs in batches to output file in a thread-safe way
-def write_cidrs_to_file(filename="ip.lst"):
+def write_cidrs_to_file(filename="ooni_ips_temp.lst"):
     while True:
         cidrs = results_queue.get()  # Fetch CIDRs from the queue
         if cidrs is None:  # Sentinel value to stop the thread
@@ -103,7 +103,7 @@ def main():
     gc.enable()
 
     # Read the domains from domains.lst file
-    domains = read_domains_from_file("ooni_domains.lst")
+    domains = read_domains_from_file("input/ooni_domains.lst")
     if not domains:
         logging.info("No domains to process.")
         return
@@ -111,7 +111,7 @@ def main():
     existing_cidrs = set()  # Keep track of all CIDRs to exclude matching IPs
 
     # Start the file writer thread
-    writer_thread = threading.Thread(target=write_cidrs_to_file, args=("ip_ooni.lst",))
+    writer_thread = threading.Thread(target=write_cidrs_to_file, args=("input/ooni_ips.lst",))
     writer_thread.start()
 
     # Use ThreadPoolExecutor to use more threads (set to 16 threads for better utilization)

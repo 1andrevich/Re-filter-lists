@@ -17,10 +17,10 @@ def normalize_domain(domain):
 # Function to fetch and process OONI domains with logging and anomaly checks
 def fetch_and_process_ooni_domains(output_file):
     try:
-        # Calculate the date range for the last 7 days
+        # Calculate the date range for the last 14 days
         today = datetime.now()
         until_date = today.strftime('%Y-%m-%d')
-        since_date = (today - timedelta(days=7)).strftime('%Y-%m-%d')
+        since_date = (today - timedelta(days=14)).strftime('%Y-%m-%d')
 
         # Construct the URL for downloading the CSV file using the OONI API
         base_url = "https://api.ooni.io/api/v1/aggregation"
@@ -58,9 +58,9 @@ def fetch_and_process_ooni_domains(output_file):
             # Log domain processing details
             logging.info(f"Checking domain: {domain} | Anomalies: {anomaly_count}, OK: {ok_count}, Anomaly Rate: {anomaly_count / (anomaly_count + ok_count) if (anomaly_count + ok_count) > 0 else 0:.2f}")
 
-            # Filter out incorrect domains
-            if re.match(pattern, domain):
-                logging.info(f"Domain has incorrect format: {domain}")
+            # Filter out incorrect domains and yandex domains
+            if re.match(pattern, domain) or domain.endswith('yandex.net') or domain.endswith('yandex.ru'):
+                logging.info(f"Domain is either incorrectly formatted or a Yandex domain: {domain}")
                 continue
 
             # Log and process based on anomaly vs OK count
@@ -83,7 +83,7 @@ def fetch_and_process_ooni_domains(output_file):
         logging.error(f"Error occurred during fetching or processing: {e}")
 
 # Replace with your output file path
-output_file = 'ooni/ooni_domains.lst'
+output_file = 'sum/input/ooni_domains.lst'
 
 # Fetch and process OONI domains, and output to the specified file
 fetch_and_process_ooni_domains(output_file)
