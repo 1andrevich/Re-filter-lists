@@ -31,27 +31,27 @@ jobs:
         if [ ! -d "sum/output" ]; then mkdir -p sum/output; fi
 
     - name: Run OONI Parser (ooni_domains.lst)
-      run: python src/step 5 ooni list/ooni_list.py
+      run: python "src/step 5 ooni list/ooni_list.py"
 
 ##Community.lst and Domains.lst are already in the sum/input folder
 
     - name: Run Domain Sum Up script (domains_all.lst)
-      run: python src/step 5 ooni list/domain_sum.py
+      run: python "src/step 5 ooni list/domain_sum.py"
 
     - name: Run OONI Resolver script (ooni_ips.lst)
-      run: python src/step 5 ooni list/resolver_ooni.py
+      run: python "src/step 5 ooni list/resolver_ooni.py"
       
     - name: Run Community Resolver script (ip_community.lst)
-      run: python src/step 5 ooni list/resolver_community.py
+      run: python "src/step 5 ooni list/resolver_community.py"
 
     - name: Run IP Sum (Temp) script (ips_all.lst)
-      run: python src/step 5 ooni list/ip_4files_sum.py
+      run: python "src/step 5 ooni list/ip_4files_sum.py"
 
     - name: Run IP Sum + ASN (Final) script (ipsum.lst)
-      run: python src/step 5 ooni list/ipsum_bgp.py
+      run: python "src/step 5 ooni list/ipsum_bgp.py"
 
     - name: Run Bird2 Converter script
-      run: python src/step 5 ooni list/bird2_converter.py
+      run: python "src/step 5 ooni list/bird2_converter.py"
 
     - name: Convert files to LF (Unix format)
       run: |
