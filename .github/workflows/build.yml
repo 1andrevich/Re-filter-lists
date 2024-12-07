@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install requests idna
+        python -m pip install requests idna geoip2
 
     - name: Prepare directories for build
       run: |
