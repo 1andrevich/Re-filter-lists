@@ -34,6 +34,8 @@ jobs:
       run: python "src/step 5 ooni list/ooni_list.py"
 
 
+##Community.lst and Domains.lst are already in the sum/input folder
+
     - name: Run Domain Sum Up script (domains_all.lst)
       run: python "src/step 5 ooni list/domain_sum.py"
 
@@ -56,7 +58,6 @@ jobs:
 
     - name: Run Bird2 Converter script
       run: python "src/step 5 ooni list/bird2_converter.py"
-
 
     - name: Convert files to LF (Unix format)
       run: |
