@@ -1,23 +1,12 @@
-import logging
 from idna import encode as idna_encode
-
-# Set up logging
-logging.basicConfig(level=logging.DEBUG,  # Set the lowest level to capture all logs
-                    format="%(asctime)s - %(levelname)s - %(message)s",
-                    handlers=[
-                        logging.FileHandler("domain_processing.log", mode='a'),
-                        logging.StreamHandler()  # This will print logs to console as well
-                    ])
 
 # Function to read domains from a file
 def read_domains_from_file(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             domains = [line.strip() for line in f.readlines() if line.strip()]
-        logging.info(f"Read {len(domains)} domains from {file_path}.")
         return domains
-    except FileNotFoundError as e:
-        logging.error(f"File not found: {file_path}, {e}")
+    except FileNotFoundError:
         return []
 
 # Function to convert domains to punycode
@@ -27,8 +16,8 @@ def convert_to_punycode(domains):
         try:
             punycode_domain = idna_encode(domain).decode('utf-8')
             punycode_domains.add(punycode_domain)
-        except Exception as e:
-            logging.error(f"Punycode conversion failed for domain {domain}: {e}")
+        except Exception:
+            pass
     return punycode_domains
 
 # Main function to process domain files and create the output file
@@ -50,9 +39,8 @@ def main():
         with open(output_file, 'w', encoding='utf-8') as f:
             for domain in sorted(unique_domains):
                 f.write(f"{domain}\n")
-        logging.info(f"Written {len(unique_domains)} unique domains to {output_file}.")
-    except Exception as e:
-        logging.error(f"Error writing to file {output_file}: {e}")
+    except Exception:
+        pass
 
 if __name__ == "__main__":
     main()
