@@ -1,0 +1,27 @@
+{
+  "input": [
+    {
+      "type": "text",
+      "action": "add",
+      "args": {
+        "name": "refilter",
+        "uri": "./ipsum.lst",
+        "onlyIPType": "ipv4"
+      }
+    },
+    {
+      "type": "private",
+      "action": "add"
+    }
+  ],
+  "output": [
+    {
+      "type": "v2rayGeoIPDat",
+      "action": "output",
+      "args": {
+        "outputName": "geoip.dat",
+        "wantedList": ["refilter", "private"]
+      }
+    }
+  ]
+}

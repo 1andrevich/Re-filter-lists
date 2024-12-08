@@ -25,7 +25,7 @@ def main():
     # Read domains from the three files
     domains1 = read_domains_from_file("sum/input/domains.lst")
     domains2 = read_domains_from_file("sum/input/ooni_domains.lst")
-    domains3 = read_domains_from_file("sum/input/community.lst")
+    domains3 = read_domains_from_file("community.lst")
 
     # Combine all domains
     all_domains = set(domains1 + domains2 + domains3)

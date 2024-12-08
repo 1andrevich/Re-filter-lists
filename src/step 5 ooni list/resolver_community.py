@@ -2,8 +2,8 @@ import socket
 import concurrent.futures
 import threading
 import gc
-import time  # For introducing delay
-import requests  # For making API calls to get ASN details
+#import time  # For introducing delay
+#import requests  # For making API calls to get ASN details
 import ipaddress
 from idna import encode as idna_encode
 from queue import Queue
@@ -55,7 +55,7 @@ def process_domain(domain, existing_cidrs):
         return set()
 
 # Function to read domains from domains.lst file
-def read_domains_from_file(file_path="sum/input/community.lst"):
+def read_domains_from_file(file_path="community.lst"):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             domains = [line.strip() for line in f.readlines() if line.strip()]
@@ -81,7 +81,7 @@ def main():
     gc.enable()
 
     # Read the domains from domains.lst file
-    domains = read_domains_from_file("sum/input/community.lst")
+    domains = read_domains_from_file("community.lst")
     if not domains:
         return
 
@@ -92,7 +92,7 @@ def main():
     writer_thread.start()
 
     # Use ThreadPoolExecutor to use more threads (set to 16 threads for better utilization)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=16) as executor:
         future_to_domain = {executor.submit(process_domain, domain, existing_cidrs): domain for domain in domains}
 
         for future in concurrent.futures.as_completed(future_to_domain):
