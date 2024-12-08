@@ -14,9 +14,10 @@ def main():
     ips2 = read_ips_from_file("sum/input/ooni_ips.lst")
     ips3 = read_ips_from_file("sum/input/ip_community.lst")
     ips4 = read_ips_from_file("discord_ips.lst")
+    ips5 = read_ips_from_file("community_ips.lst")
 
     # Combine all IPs and remove duplicates
-    unique_ips = set(ips1 + ips2 + ips3 + ips4)
+    unique_ips = set(ips1 + ips2 + ips3 + ips4 + ips5)
 
     # Write the unique IPs to the output file
     output_file = "sum/input/ips_all.lst"
