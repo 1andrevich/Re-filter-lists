@@ -143,9 +143,26 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Set Release Name and Tag
+      run: |
+        # Define the date
+        CURRENT_DATE=$(date +%d-%m-%Y)
+        CURRENT_TAG=$(date +%d%m%Y)
+
+        # Format the release name and tag
+        RELEASE_NAME="Release $CURRENT_DATE"
+        TAG_NAME="$CURRENT_TAG"
+
+        # Export as environment variables
+        echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
+        echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+      shell: bash
+
     - name: Create Pre-release with gh CLI
       run: |
-        gh release create v0.0.1-test ./sum/output/* \
+        gh release create "$TAG_NAME" \
+          ./sum/output/domains_all.lst \
+          ./sum/output/ipsum.lst \
           ./src/xray-geoip/output/dat/geoip.dat \
           ./src/xray-geosite/geosite.dat \
           ./src/sing-box-files/refilter/geoip.db \
@@ -154,16 +171,17 @@ jobs:
           ./src/sing-box-files/refilter/ruleset-domain-refilter_domains.json \
           ./src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.srs \
           ./src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.json \
-          --title "First Test Automatic Pre-release" \
-          --notes "This is the first test pre-release to validate automatic release creation." \
-          --draft --prerelease
+          --title "$RELEASE_NAME" \
+          --notes "This is the automatic $RELEASE_NAME creation." \
+          --draft \
+          --prerelease
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Verify Release
       run: |
         echo "Validating release creation:"
-        gh release view v0.0.1-test
+        gh release view "$TAG_NAME"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
