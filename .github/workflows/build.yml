@@ -148,6 +148,8 @@ jobs:
           - GeoIP and Geosite databases
         draft: true # Set to true if you want it to be unpublished initially
         prerelease: true # Marks it as a pre-release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         files: |
           sum/output/ipsum.lst
           sum/output/domains_all.lst
