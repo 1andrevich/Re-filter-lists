@@ -1,6 +1,7 @@
 name: Build domains_all and ipsum
 
 on:
+  workflow_dispatch: # Allows manual trigger of the workflow
   ##push:
     ##branches:
      ## - main
