@@ -1,0 +1,12 @@
+[
+  {
+	"url": "https://github.com/1andrevich/Re-filter-lists/blob/main/domains_all.lst",
+    "contentType": "DefaultList",
+    "category": "refilter_domains"
+  },
+  {
+	"url": "https://github.com/1andrevich/Re-filter-lists/blob/main/ipsum.lst",
+    "contentType": "DefaultList",
+    "category": "refilter_ipsum"
+  }
+]
