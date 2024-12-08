@@ -117,7 +117,7 @@ jobs:
         chmod +x generate-geoip-geosite
 
         # Run the generate-geoip-geosite script
-        ./generate-geoip-geosite -s sourceRefilter.json -i ./refilter -o ./refilter
+        ./generate-geoip-geosite -i ./refilter -o ./refilter
       
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
