@@ -98,6 +98,6 @@ jobs:
         name: build-results
         path: |
           sum/
-          src/xray-geoip/dat/
-          src/xray-geosite/
+          src/xray-geoip/output/dat/geoip.dat
+          src/xray-geosite/geosite.dat
           
