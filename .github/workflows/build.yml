@@ -78,7 +78,7 @@ jobs:
     - name: Prepare Xray-GeoIP
       run: |
         mkdir -p src/xray-geoip
-        cp sum/output/ipsum.lst src/xray-geoip/ipsum.lst
+        cp ./sum/output/ipsum.lst src/xray-geoip/ipsum.lst
         cd src/xray-geoip
         go run ./  # This assumes a valid `main.go` file exists in `xray-geoip`
       working-directory: src/xray-geoip
@@ -86,7 +86,7 @@ jobs:
     - name: Prepare Xray-Geosite
       run: |
         mkdir -p src/xray-geosite/data
-        cp sum/output/domains_all.lst src/xray-geosite/data/refilter
+        cp ./sum/output/domains_all.lst src/xray-geosite/data/refilter
         cd src/xray-geosite
         go run ./ --exportlists=refilter --outputname=geosite.dat
       working-directory: src/xray-geosite
