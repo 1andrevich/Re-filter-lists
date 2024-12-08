@@ -153,12 +153,12 @@ jobs:
           sum/output/domains_all.lst
           src/xray-geoip/output/dat/geoip.dat
           src/xray-geosite/geosite.dat
-          src/sing-box/refilter/geoip.db
-          src/sing-box/refilter/geosite.db
-          src/sing-box/refilter/ruleset-domain-refilter_domains.srs
-          src/sing-box/refilter/ruleset-domain-refilter_domains.json
-          src/sing-box/refilter/ruleset-ip-refilter_ipsum.srs
-          src/sing-box/refilter/ruleset-ip-refilter_ipsum.json
+          src/sing-box-files/refilter/geoip.db
+          src/sing-box-files/refilter/geosite.db
+          src/sing-box-files/refilter/ruleset-domain-refilter_domains.srs
+          src/sing-box-files/refilter/ruleset-domain-refilter_domains.json
+          src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.srs
+          src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.json
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
