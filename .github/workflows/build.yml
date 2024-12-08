@@ -97,7 +97,8 @@ jobs:
       with:
         name: build-results
         path: |
-          sum/
+          sum/output/
+          sum/input/ooni_domains.lst
           src/xray-geoip/output/dat/geoip.dat
           src/xray-geosite/geosite.dat
           
