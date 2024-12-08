@@ -94,16 +94,29 @@ jobs:
 
     - name: Prepare Sing-Box Files
       run: |
-        mkdir -p $GITHUB_WORKSPACE/src/sing-box
-        if [ -f $GITHUB_WORKSPACE/sum/output/domains_all.lst ]; then
+        # Ensure the sing-box and refilter directories exist
+        mkdir -p $GITHUB_WORKSPACE/src/sing-box/refilter
+
+        # Check if required input files exist
+        if [ -f $GITHUB_WORKSPACE/sum/output/domains_all.lst ] && [ -f $GITHUB_WORKSPACE/sum/output/ipsum.lst ]; then
+          # Copy the required files to the sing-box/refilter directory
           cp $GITHUB_WORKSPACE/sum/output/domains_all.lst $GITHUB_WORKSPACE/src/sing-box/refilter/include-domain-refilter_domains.lst
           cp $GITHUB_WORKSPACE/sum/output/ipsum.lst $GITHUB_WORKSPACE/src/sing-box/refilter/include-ip-refilter_ipsum.lst
+
+          # Prepend '*. ' to each domain in the include-domain-refilter_domains.lst file
           sed -i 's/^/*./' $GITHUB_WORKSPACE/src/sing-box/refilter/include-domain-refilter_domains.lst
         else
-          echo "Error: domains_all.lst not found!" && exit 1
+          # Exit with an error if the required input files are missing
+          echo "Error: Required input files (domains_all.lst or ipsum.lst) are missing!" && exit 1
         fi
+
+        # Navigate to the sing-box directory
         cd $GITHUB_WORKSPACE/src/sing-box
+
+        # Ensure the script is executable
         chmod +x generate-geoip-geosite
+
+        # Run the generate-geoip-geosite script
         ./generate-geoip-geosite -s sourceRefilter.json -i ./refilter -o ./refilter
       
     - name: Upload Build Artifacts
