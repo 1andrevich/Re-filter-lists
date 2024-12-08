@@ -134,3 +134,28 @@ jobs:
           src/sing-box-files/refilter/ruleset-domain-refilter_domains.json
           src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.srs
           src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.json
+          
+    - name: Make a release
+      uses: actions/create-release@v1
+      with:
+        tag_name: 'v0.0.1-test' # Change this tag as needed
+        release_name: 'First Test Automatic Pre-release'
+        body: |
+          This is the first test pre-release to validate automatic release creation.
+          It includes the following artifacts:
+          - domains_all.lst
+          - ipsum.lst
+          - GeoIP and Geosite databases
+        draft: true # Set to true if you want it to be unpublished initially
+        prerelease: true # Marks it as a pre-release
+        files: |
+          sum/output/ipsum.lst
+          sum/output/domains_all.lst
+          src/xray-geoip/output/dat/geoip.dat
+          src/xray-geosite/geosite.dat
+          src/sing-box/refilter/geoip.db
+          src/sing-box/refilter/geosite.db
+          src/sing-box/refilter/ruleset-domain-refilter_domains.srs
+          src/sing-box/refilter/ruleset-domain-refilter_domains.json
+          src/sing-box/refilter/ruleset-ip-refilter_ipsum.srs
+          src/sing-box/refilter/ruleset-ip-refilter_ipsum.json
