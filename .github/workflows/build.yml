@@ -1,4 +1,4 @@
-name: Build domains_all and ipsum
+name: Build domains_all, ipsum, XRay and Sing-Box Files
 
 on:
   workflow_dispatch: # Allows manual trigger of the workflow
