@@ -135,30 +135,36 @@ jobs:
           src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.srs
           src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.json
           
-    - name: Create Draft Pre-release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: v0.0.1-test
-        name: "First Test Automatic Pre-release"
-        body: |
-          This is the first test pre-release to validate automatic release creation.
-          It includes the following artifacts:
-          - domains_all.lst
-          - ipsum.lst
-          - GeoIP and Geosite databases
-        draft: true # Mark as draft
-        prerelease: true # Mark as pre-release
-        files: |
-          sum/output/ipsum.lst
-          sum/output/domains_all.lst
-          src/xray-geoip/output/dat/geoip.dat
-          src/xray-geosite/geosite.dat
-          src/sing-box-files/refilter/geoip.db
-          src/sing-box-files/refilter/geosite.db
-          src/sing-box-files/refilter/ruleset-domain-refilter_domains.srs
-          src/sing-box-files/refilter/ruleset-domain-refilter_domains.json
-          src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.srs
-          src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.json
+    - name: Install GitHub CLI
+      run: sudo apt-get install -y gh
+
+    - name: Authenticate GitHub CLI
+      run: gh auth setup-git
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create Pre-release with gh CLI
+      run: |
+        gh release create v0.0.1-test ./sum/output/* \
+          ./src/xray-geoip/output/dat/geoip.dat \
+          ./src/xray-geosite/geosite.dat \
+          ./src/sing-box-files/refilter/geoip.db \
+          ./src/sing-box-files/refilter/geosite.db \
+          ./src/sing-box-files/refilter/ruleset-domain-refilter_domains.srs \
+          ./src/sing-box-files/refilter/ruleset-domain-refilter_domains.json \
+          ./src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.srs \
+          ./src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.json \
+          --title "First Test Automatic Pre-release" \
+          --notes "This is the first test pre-release to validate automatic release creation." \
+          --draft --prerelease
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Verify Release
+      run: |
+        echo "Validating release creation:"
+        gh release view v0.0.1-test
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
