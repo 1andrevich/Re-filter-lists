@@ -1,9 +1,9 @@
 name: Build domains_all and ipsum
 
 on:
-  push:
-    branches:
-      - main
+  ##push:
+    ##branches:
+     ## - main
   schedule:
     - cron: '0 0 */3 * *' # Runs every 3rd day at midnight UTC
 
@@ -53,11 +53,11 @@ jobs:
 
 
     - name: Run IP Sum + ASN (Final) script (ipsum.lst)
-      run: python "src/step 5 ooni list/ipsum_bgp.py"
+      run: python "src/step 6 temp - summarization and ASN CIDRs.py"
 
 
     - name: Run Bird2 Converter script
-      run: python "src/step 5 ooni list/bird2_converter.py"
+      run: python "src/bird2_converter.py"
 
     - name: Convert files to LF (Unix format)
       run: |
@@ -68,9 +68,33 @@ jobs:
       run: |
         echo "Files in sum/output after build:"
         ls -la sum/output
+
+    - name: Install Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.22'
+
+    - name: Prepare Xray-GeoIP
+      run: |
+        mkdir -p src/xray-geoip
+        cp sum/output/ipsum.lst src/xray-geoip/ipsum.lst
+        cd src/xray-geoip
+        go run ./  # This assumes a valid `main.go` file exists in `xray-geoip`
+      working-directory: src/xray-geoip
         
+    - name: Prepare Xray-Geosite
+      run: |
+        mkdir -p src/xray-geosite/data
+        cp sum/output/domains_all.lst src/xray-geosite/data/refilter
+        cd src/xray-geosite
+        go run ./ --exportlists=refilter --outputname=geosite.dat
+      working-directory: src/xray-geosite
+      
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: build-results
-        path: sum/
+        path: |
+          sum/
+          src/xray-geoip/dat/geoip.dat
+          src/xray-geosite/data/geosite.dat
