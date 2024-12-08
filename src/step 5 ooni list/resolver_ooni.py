@@ -2,8 +2,8 @@ import socket
 import concurrent.futures
 import threading
 import gc
-import time  # For introducing delay
-import requests  # For making API calls to get ASN details
+#import time
+#import requests
 import ipaddress
 from idna import encode as idna_encode
 from queue import Queue
@@ -92,7 +92,7 @@ def main():
     writer_thread.start()
 
     # Use ThreadPoolExecutor to use more threads (set to 16 threads for better utilization)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=16) as executor:
         future_to_domain = {executor.submit(process_domain, domain, existing_cidrs): domain for domain in domains}
 
         for future in concurrent.futures.as_completed(future_to_domain):
