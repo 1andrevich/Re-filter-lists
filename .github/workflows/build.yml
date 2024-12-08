@@ -91,6 +91,20 @@ jobs:
         fi
         cd $GITHUB_WORKSPACE/src/xray-geosite
         go run ./ --exportlists=refilter --outputname=geosite.dat
+
+    - name: Prepare Sing-Box Files
+      run: |
+        mkdir -p $GITHUB_WORKSPACE/src/sing-box
+        if [ -f $GITHUB_WORKSPACE/sum/output/domains_all.lst ]; then
+          cp $GITHUB_WORKSPACE/sum/output/domains_all.lst $GITHUB_WORKSPACE/src/sing-box/refilter/include-domain-refilter_domains.lst
+          cp $GITHUB_WORKSPACE/sum/output/ipsum.lst $GITHUB_WORKSPACE/src/sing-box/refilter/include-ip-refilter_ipsum.lst
+          sed -i 's/^/*./' $GITHUB_WORKSPACE/src/sing-box/refilter/include-domain-refilter_domains.lst
+        else
+          echo "Error: domains_all.lst not found!" && exit 1
+        fi
+        cd $GITHUB_WORKSPACE/src/sing-box
+        chmod +x generate-geoip-geosite
+        ./generate-geoip-geosite -s sourceRefilter.json -i ./refilter -o ./refilter
       
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
@@ -101,4 +115,9 @@ jobs:
           sum/input/ooni_domains.lst
           src/xray-geoip/output/dat/geoip.dat
           src/xray-geosite/geosite.dat
-          
+          src/sing-box/refilter/geoip.db
+          src/sing-box/refilter/geosite.db
+          src/sing-box/refilter/ruleset-domain-refilter_domains.srs
+          src/sing-box/refilter/ruleset-domain-refilter_domains.json
+          src/sing-box/refilter/ruleset-ip-refilter_ipsum.srs
+          src/sing-box/refilter/ruleset-ip-refilter_ipsum.json
