@@ -17,20 +17,26 @@ OUTPUT_FILE = 'sum/output/ipsum.lst'
 
 # Path to the GeoLite2 ASN database
 GEOIP_DB_PATH = 'sum/GeoLite2-ASN.mmdb'
-GEOIP_DB_URL = 'https://git.io/GeoLite2-ASN.mmdb'
+GEOIP_DB_URLS = [
+    'https://git.io/GeoLite2-ASN.mmdb',
+    'https://github.com/P3TERX/GeoLite.mmdb/raw/download/GeoLite2-ASN.mmdb'
+]
 
 # Function to download the GeoLite2 ASN database
 def download_geolite2_asn_db():
     if not os.path.exists(GEOIP_DB_PATH):
-        try:
-            response = requests.get(GEOIP_DB_URL)
-            response.raise_for_status()
-            with open(GEOIP_DB_PATH, 'wb') as f:
-                f.write(response.content)
-            logging.info(f'Downloaded GeoLite2 ASN database to {GEOIP_DB_PATH}')
-        except requests.RequestException as e:
-            logging.error(f'Failed to download GeoLite2 ASN database: {e}')
-            raise
+        for url in GEOIP_DB_URLS:
+            try:
+                response = requests.get(url)
+                response.raise_for_status()
+                with open(GEOIP_DB_PATH, 'wb') as f:
+                    f.write(response.content)
+                logging.info(f'Downloaded GeoLite2 ASN database to {GEOIP_DB_PATH} from {url}')
+                return
+            except requests.RequestException as e:
+                logging.warning(f'Failed to download GeoLite2 ASN database from {url}: {e}')
+        logging.error('All attempts to download the GeoLite2 ASN database have failed.')
+        raise Exception('Unable to download GeoLite2 ASN database')
 
 # Initialize the GeoIP2 reader
 def initialize_geoip_reader():
