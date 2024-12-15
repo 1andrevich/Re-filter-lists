@@ -81,24 +81,29 @@ LOCAL_IP_CIDRS = [
     ipaddress.ip_network('fe80::/10')
 ]
 
-# Function to summarize IPs into /28 subnets at most
+# Function to summarize IPs into the smallest possible subnets, with /28 as the maximum
+
 def summarize_ips(ips):
     try:
+        # Parse input into IP networks
         networks = []
         for ip in set(ips):
             try:
                 networks.append(ipaddress.ip_network(ip, strict=False))
             except ValueError as e:
                 logging.warning(f"Skipping invalid IP or CIDR: {ip} ({e})")
-        
+
+        # Collapse adjacent or overlapping networks
         collapsed_networks = ipaddress.collapse_addresses(networks)
         summarized_networks = []
 
         for network in collapsed_networks:
+            # Preserve existing CIDRs like /25, /24, etc., as-is
             if network.prefixlen < 28:
-                summarized_networks.extend(network.subnets(new_prefix=28))
-            else:
                 summarized_networks.append(network)
+            else:
+                # Split /32 into smallest possible subnets without exceeding /28
+                summarized_networks.extend(network.subnets(new_prefix=max(28, network.prefixlen)))
 
         logging.info(f"Summarized networks: {summarized_networks}")
         return summarized_networks
