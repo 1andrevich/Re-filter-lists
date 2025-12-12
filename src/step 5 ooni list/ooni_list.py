@@ -14,6 +14,12 @@ logging.basicConfig(level=logging.INFO,
 def normalize_domain(domain):
     return domain.lstrip('www.') if domain.startswith('www.') else domain
 
+# Return domain labels split using common dot variants so IDNs don't get dropped
+def split_domain_labels(domain):
+    dot_variants = {'.', '。', '．', '｡'}
+    normalized = ''.join('.' if ch in dot_variants else ch for ch in domain.strip('.'))
+    return [label for label in normalized.split('.') if label]
+
 # Function to fetch and process OONI domains with logging and anomaly checks
 def fetch_and_process_ooni_domains(output_file):
     try:
@@ -58,6 +64,11 @@ def fetch_and_process_ooni_domains(output_file):
             # Log domain processing details
             logging.info(f"Checking domain: {domain} | Anomalies: {anomaly_count}, OK: {ok_count}, Anomaly Rate: {anomaly_count / (anomaly_count + ok_count) if (anomaly_count + ok_count) > 0 else 0:.2f}")
 
+            # Skip single-label names (e.g., "com", "localhost") that are not real domains
+            if len(split_domain_labels(domain)) < 2:
+                logging.info(f"Skipping single-label name: {domain}")
+                continue
+
             # Filter out incorrect domains and yandex domains
             if re.match(pattern, domain) or domain.endswith('yandex.net') or domain.endswith('yandex.ru'):
                 logging.info(f"Domain is either incorrectly formatted or a Yandex domain: {domain}")
@@ -66,6 +77,10 @@ def fetch_and_process_ooni_domains(output_file):
             # Log and process based on anomaly vs OK count
             if anomaly_count > ok_count:
                 normalized_domain = normalize_domain(domain)
+                # Drop entries that become single-label after normalization (e.g., "www.com")
+                if len(split_domain_labels(normalized_domain)) < 2:
+                    logging.info(f"Skipping normalized single-label name: {normalized_domain} (from {domain})")
+                    continue
                 if normalized_domain not in domains:
                     domains.add(normalized_domain)
                     logging.info(f"Anomaly rate is high for the domain: {normalized_domain} - Adding to the list")
