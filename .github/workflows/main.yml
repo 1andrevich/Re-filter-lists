@@ -1,0 +1,20 @@
+name: Update App
+
+on:
+ workflow_dispatch: # Allows manual trigger of the workflow
+ push:
+   branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+ deploy-app:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Checkout repository
+       uses: actions/checkout@v4
+     - name: Deploy the app
+       uses: digitalocean/app_action/deploy@v2
+       with:
+         token: ${{ secrets.DIGITALOCEAN }}
