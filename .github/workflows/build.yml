@@ -2,21 +2,21 @@ name: Build domains_all, ipsum, XRay and Sing-Box Files
 
 on:
   workflow_dispatch: # Allows manual trigger of the workflow
-  schedule:
-    - cron: '0 0 */6 * *' # Runs every 6th day at midnight UTC
 
 jobs:
   run-python-scripts:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout repository (beta)
       uses: actions/checkout@v3
+      with:
+        ref: beta
 
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9'
+        python-version: '3.12'
 
     - name: Install dependencies
       run: |
