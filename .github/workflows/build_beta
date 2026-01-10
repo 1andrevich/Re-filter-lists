@@ -150,8 +150,8 @@ jobs:
         CURRENT_TAG=$(date +%d%m%Y)
 
         # Format the release name and tag
-        RELEASE_NAME="Release $CURRENT_DATE"
-        TAG_NAME="$CURRENT_TAG"
+        RELEASE_NAME="Release $CURRENT_DATE (beta)"
+        TAG_NAME="${CURRENT_TAG}-beta"
 
         # Export as environment variables
         echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
