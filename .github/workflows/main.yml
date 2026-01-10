@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  domain_ip_build_pipeline:
+  domains_ip_build_pipeline:
     runs-on: self-hosted
     timeout-minutes: 4800
 
@@ -44,7 +44,7 @@ jobs:
         run: |
           set -euo pipefail
           ulimit -n 65535
-          . .venv/bin/activate
+          . ../.venv/bin/activate
           python step1-download-and-word-filter.py
         working-directory: src
 
@@ -52,7 +52,7 @@ jobs:
         run: |
           set -euo pipefail
           ulimit -n 65535
-          . .venv/bin/activate
+          . ../.venv/bin/activate
           python reprioritize_domains.py --file=domains_new_1.lst --output=domains_new_1.lst
         working-directory: src
 
@@ -60,7 +60,7 @@ jobs:
         run: |
           set -euo pipefail
           ulimit -n 65535
-          . .venv/bin/activate
+          . ../.venv/bin/activate
           python step2-availability-check.py
         working-directory: src
 
@@ -78,15 +78,18 @@ jobs:
         run: |
           set -euo pipefail
           ulimit -n 65535
-          . .venv/bin/activate
+          . ../.venv/bin/activate
           python step3-content-check.py
         working-directory: src
+
+      - name: Remove proxies file
+        run: rm -f src/proxies.txt
 
       - name: Run Step 4 (domain resolver)
         run: |
           set -euo pipefail
           ulimit -n 65535
-          . .venv/bin/activate
+          . ../.venv/bin/activate
           python step4-domain-resolver.py
         working-directory: src
 
@@ -105,9 +108,6 @@ jobs:
             echo "ip.lst not found" >&2
             exit 1
           fi
-
-      - name: Remove proxies file
-        run: rm -f src/proxies.txt
 
       - name: Set PR date
         run: |
