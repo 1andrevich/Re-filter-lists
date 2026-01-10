@@ -2,8 +2,9 @@ name: Domains.lst and ip.lst Build Workflow
 
 on:
   workflow_dispatch:
+
 jobs:
-  rkn_pipeline:
+  domain_ip_build_pipeline:
     runs-on: self-hosted
     timeout-minutes: 4800
 
@@ -17,6 +18,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
+
 
       - name: Create virtualenv
         run: |
@@ -43,21 +45,24 @@ jobs:
           set -euo pipefail
           ulimit -n 65535
           . .venv/bin/activate
-          python src/step1-download-and-word-filter.py
+          python step1-download-and-word-filter.py
+        working-directory: src
 
       - name: Run Reprioritize Domains
         run: |
           set -euo pipefail
           ulimit -n 65535
           . .venv/bin/activate
-          python src/reprioritize_domains.py --file=domains_new_1.lst --output=domains_new_1.lst
+          python reprioritize_domains.py --file=domains_new_1.lst --output=domains_new_1.lst
+        working-directory: src
 
       - name: Run Step 2 (availability check)
         run: |
           set -euo pipefail
           ulimit -n 65535
           . .venv/bin/activate
-          python src/step2-availability-check.py
+          python step2-availability-check.py
+        working-directory: src
 
       - name: Write proxies from secret
         env:
@@ -67,40 +72,42 @@ jobs:
             echo "RKN_PROXIES secret is empty" >&2
             exit 1
           fi
-          printf '%s\n' "${RKN_PROXIES}" > proxies.txt
+          printf '%s\n' "${RKN_PROXIES}" > src/proxies.txt
 
       - name: Run Step 3 (content check)
         run: |
           set -euo pipefail
           ulimit -n 65535
           . .venv/bin/activate
-          python src/step3-content-check.py
-
-      - name: Remove proxies file
-        run: rm -f proxies.txt
+          python step3-content-check.py
+        working-directory: src
 
       - name: Run Step 4 (domain resolver)
         run: |
           set -euo pipefail
           ulimit -n 65535
           . .venv/bin/activate
-          python src/step4-domain-resolver.py
+          python step4-domain-resolver.py
+        working-directory: src
 
       - name: Move outputs to sum/input/
         run: |
           mkdir -p sum/input
-          if [ -f domains.lst ]; then
-            mv domains.lst sum/input/domains.lst
+          if [ -f src/domains.lst ]; then
+            mv src/domains.lst sum/input/domains.lst
           else
             echo "domains.lst not found" >&2
             exit 1
           fi
-          if [ -f ip.lst ]; then
-            mv ip.lst sum/input/ip.lst
+          if [ -f src/ip.lst ]; then
+            mv src/ip.lst sum/input/ip.lst
           else
             echo "ip.lst not found" >&2
             exit 1
           fi
+
+      - name: Remove proxies file
+        run: rm -f src/proxies.txt
 
       - name: Set PR date
         run: |
