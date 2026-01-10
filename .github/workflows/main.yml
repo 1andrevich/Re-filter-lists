@@ -2,8 +2,6 @@ name: Domains.lst and ip.lst Build Workflow
 
 on:
   workflow_dispatch:
-  push:
-    branches: [beta]
 jobs:
   rkn_pipeline:
     runs-on: self-hosted
