@@ -38,11 +38,23 @@ func newCutter(action lib.Action, data json.RawMessage) (lib.InputConverter, err
 		return nil, fmt.Errorf("type %s only supports `remove` action", typeCutter)
 	}
 
+	// Filter want list
+	wantList := make(map[string]bool)
+	for _, want := range tmp.Want {
+		if want = strings.ToUpper(strings.TrimSpace(want)); want != "" {
+			wantList[want] = true
+		}
+	}
+
+	if len(wantList) == 0 {
+		return nil, fmt.Errorf("type %s wantedList must be specified", typeCutter)
+	}
+
 	return &cutter{
 		Type:        typeCutter,
 		Action:      action,
 		Description: descCutter,
-		Want:        tmp.Want,
+		Want:        wantList,
 		OnlyIPType:  tmp.OnlyIPType,
 	}, nil
 }
@@ -51,7 +63,7 @@ type cutter struct {
 	Type        string
 	Action      lib.Action
 	Description string
-	Want        []string
+	Want        map[string]bool
 	OnlyIPType  lib.IPType
 }
 
@@ -76,20 +88,13 @@ func (c *cutter) Input(container lib.Container) (lib.Container, error) {
 		ignoreIPType = lib.IgnoreIPv4
 	}
 
-	// Filter want list
-	wantList := make(map[string]bool)
-	for _, want := range c.Want {
-		if want = strings.ToUpper(strings.TrimSpace(want)); want != "" {
-			wantList[want] = true
-		}
-	}
-
 	for entry := range container.Loop() {
-		name := entry.GetName()
-		if len(wantList) > 0 && !wantList[name] {
+		if len(c.Want) > 0 && !c.Want[entry.GetName()] {
 			continue
 		}
-		container.Remove(name, ignoreIPType)
+		if err := container.Remove(entry, lib.CaseRemoveEntry, ignoreIPType); err != nil {
+			return nil, err
+		}
 	}
 
 	return container, nil
