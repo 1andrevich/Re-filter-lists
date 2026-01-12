@@ -182,14 +182,6 @@ jobs:
           src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.srs
           src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.json
           
-    - name: Install GitHub CLI
-      run: sudo apt-get install -y gh
-
-    - name: Authenticate GitHub CLI
-      run: gh auth setup-git
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Set Release Name and Tag
       run: |
         # Define the date
