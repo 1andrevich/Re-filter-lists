@@ -176,9 +176,8 @@ def get_all_cidrs_from_ripe(asn):
 def get_all_cidrs_from_ipinfo(asn):
     try:
         url = f"https://ipinfo.io/{asn}"
-        headers = {
-            'Authorization': 'Bearer fe4b08eb6076c5'  # Replace with your actual IPinfo API key
-        }
+        token = os.getenv("IPINFO_TOKEN", "").strip()
+        headers = {"Authorization": f"Bearer {token}"} if token else {}
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             data = response.json()
