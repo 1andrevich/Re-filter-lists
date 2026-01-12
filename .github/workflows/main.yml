@@ -2,34 +2,23 @@ name: Domains.lst and ip.lst Build Workflow
 
 on:
   workflow_dispatch:
+
 jobs:
-  rkn_pipeline:
+  domains_ip_build_pipeline:
     runs-on: self-hosted
     timeout-minutes: 4800
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: beta
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo install -d /etc/apt/keyrings
-          curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /etc/apt/keyrings/google-chrome.gpg
-          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list > /dev/null
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            build-essential python3-dev python3-pip python3-venv \
-            curl wget git unzip ca-certificates gnupg lsb-release \
-            google-chrome-stable \
-            libssl-dev libffi-dev libxml2-dev libxslt1-dev libjpeg-dev libpng-dev \
-            zlib1g-dev libncurses5-dev libreadline-dev libsqlite3-dev libgdbm-dev \
-            libdb5.3-dev libbz2-dev libexpat1-dev liblzma-dev tk-dev libc6-dev
 
       - name: Create virtualenv
         run: |
@@ -55,22 +44,25 @@ jobs:
         run: |
           set -euo pipefail
           ulimit -n 65535
-          . .venv/bin/activate
-          python src/step1-download-and-word-filter.py
+          . ../.venv/bin/activate
+          python step1-download-and-word-filter.py
+        working-directory: src
 
       - name: Run Reprioritize Domains
         run: |
           set -euo pipefail
           ulimit -n 65535
-          . .venv/bin/activate
-          python src/reprioritize_domains.py --file=domains_new_1.lst --output=domains_new_1.lst
+          . ../.venv/bin/activate
+          python reprioritize_domains.py --file=domains_new_1.lst --output=domains_new_1.lst
+        working-directory: src
 
       - name: Run Step 2 (availability check)
         run: |
           set -euo pipefail
           ulimit -n 65535
-          . .venv/bin/activate
-          python src/step2-availability-check.py
+          . ../.venv/bin/activate
+          python step2-availability-check.py
+        working-directory: src
 
       - name: Write proxies from secret
         env:
@@ -80,36 +72,38 @@ jobs:
             echo "RKN_PROXIES secret is empty" >&2
             exit 1
           fi
-          printf '%s\n' "${RKN_PROXIES}" > proxies.txt
+          printf '%s\n' "${RKN_PROXIES}" > src/proxies.txt
 
       - name: Run Step 3 (content check)
         run: |
           set -euo pipefail
           ulimit -n 65535
-          . .venv/bin/activate
-          python src/step3-content-check.py
+          . ../.venv/bin/activate
+          python step3-content-check.py
+        working-directory: src
 
       - name: Remove proxies file
-        run: rm -f proxies.txt
+        run: rm -f src/proxies.txt
 
       - name: Run Step 4 (domain resolver)
         run: |
           set -euo pipefail
           ulimit -n 65535
-          . .venv/bin/activate
-          python src/step4-domain-resolver.py
+          . ../.venv/bin/activate
+          python step4-domain-resolver.py
+        working-directory: src
 
       - name: Move outputs to sum/input/
         run: |
           mkdir -p sum/input
-          if [ -f domains.lst ]; then
-            mv domains.lst sum/input/domains.lst
+          if [ -f src/domains.lst ]; then
+            mv src/domains.lst sum/input/domains.lst
           else
             echo "domains.lst not found" >&2
             exit 1
           fi
-          if [ -f ip.lst ]; then
-            mv ip.lst sum/input/ip.lst
+          if [ -f src/ip.lst ]; then
+            mv src/ip.lst sum/input/ip.lst
           else
             echo "ip.lst not found" >&2
             exit 1
