@@ -24,7 +24,6 @@ GEOLITE_URL = "https://github.com/FyraLabs/geolite2/releases/latest/download/Geo
 GEOLITE_META_PATH = "GeoLite2-ASN.mmdb.meta"
 
 DOMAINS_FILE = "domains.lst"
-OUTPUT_FILE = "ip_raw.lst"
 SUMMARY_FILE = "ip.lst"
 
 THREAD_COUNT = 35
@@ -345,7 +344,8 @@ def get_all_cidrs_from_ipinfo(asn, error_logger):
     # Last-resort ASN prefix source.
     try:
         url = f"https://ipinfo.io/{asn}"
-        headers = {"Authorization": "Bearer fe4b08eb6076c5"}
+        token = os.getenv("IPINFO_TOKEN", "").strip()
+        headers = {"Authorization": f"Bearer {token}"} if token else {}
         response = requests.get(url, headers=headers, timeout=30)
         if response.status_code == 200:
             data = response.json()
@@ -398,7 +398,7 @@ def is_ip_in_existing_cidr(ip, cidrs, error_logger):
     return False
 
 
-def summarize_ips(ips, summarized_filename, error_logger):
+def summarize_ips(ips, error_logger):
     # Collapse /32s to a max of /28 for compact output.
     try:
         ips = sorted(ips, key=ipaddress.ip_address)
@@ -411,10 +411,6 @@ def summarize_ips(ips, summarized_filename, error_logger):
                 summarized_networks.extend(network.subnets(new_prefix=28))
             else:
                 summarized_networks.append(network)
-
-        with open(summarized_filename, "a", encoding="utf-8") as f:
-            for network in summarized_networks:
-                f.write(f"{network}\n")
 
         return summarized_networks
     except Exception as exc:
@@ -439,7 +435,7 @@ def process_domain(domain, existing_cidrs, reader, error_logger):
                 hosting_ips.append(ip)
 
         if hosting_ips:
-            summarized_cidrs = summarize_ips(hosting_ips, SUMMARY_FILE, error_logger)
+            summarized_cidrs = summarize_ips(hosting_ips, error_logger)
             cidrs.update(str(cidr) for cidr in summarized_cidrs)
 
         return cidrs
@@ -474,6 +470,45 @@ def write_cidrs_to_file(filename, results_queue, file_write_lock):
         results_queue.task_done()
 
 
+def _sort_key(value):
+    try:
+        net = ipaddress.ip_network(value, strict=False)
+        return (0, int(net.network_address), net.prefixlen)
+    except ValueError:
+        return (1, value)
+
+
+def dedupe_and_sort(input_path, output_path, log_path):
+    counts = {}
+    ordered = []
+    try:
+        with input_path.open("r", encoding="utf-8") as f:
+            for line in f:
+                value = line.strip()
+                if not value:
+                    continue
+                counts[value] = counts.get(value, 0) + 1
+                if counts[value] == 1:
+                    ordered.append(value)
+    except FileNotFoundError:
+        logging.warning("Dedup input file not found: %s", input_path)
+        return
+
+    ordered.sort(key=_sort_key)
+    with output_path.open("w", encoding="utf-8") as f:
+        for line in ordered:
+            f.write(f"{line}\n")
+
+    dup_items = [(value, counts[value] - 1) for value in counts if counts[value] > 1]
+    dup_items.sort(key=lambda item: (-item[1], _sort_key(item[0])))
+    with log_path.open("w", encoding="utf-8") as f:
+        for value, dupes in dup_items:
+            f.write(f"{value} duplicates_removed={dupes}\n")
+
+    logging.info("Wrote %s unique lines to %s", len(ordered), output_path)
+    logging.info("Duplicate log: %s", log_path)
+
+
 def main():
     # Orchestrate update, resolution, and output.
     error_logger = configure_logging()
@@ -490,8 +525,11 @@ def main():
     file_write_lock = threading.Lock()
     results_queue = Queue()
 
+    raw_fd, raw_path = tempfile.mkstemp(prefix="ip-raw-", suffix=".lst")
+    os.close(raw_fd)
+    raw_output = Path(raw_path)
     writer_thread = threading.Thread(
-        target=write_cidrs_to_file, args=(OUTPUT_FILE, results_queue, file_write_lock)
+        target=write_cidrs_to_file, args=(str(raw_output), results_queue, file_write_lock)
     )
     writer_thread.start()
 
@@ -524,6 +562,16 @@ def main():
     results_queue.put(None)
     writer_thread.join()
     reader.close()
+
+    dedupe_and_sort(
+        raw_output,
+        Path(SUMMARY_FILE),
+        Path("ip_duplicate.log"),
+    )
+    try:
+        os.remove(raw_output)
+    except OSError:
+        logging.warning("Failed to remove temporary raw output file: %s", raw_output)
 
 
 if __name__ == "__main__":
