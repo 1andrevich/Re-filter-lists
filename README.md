@@ -246,5 +246,17 @@ protocol bgp refilter {
     hold time 240;
 }
 ```
+## Поддержать проект
+
+**Если этот проект вам полезен можете поддержать его звездой**:star2: либо по ссылкам: 
+
+<a href="https://www.buymeacoffee.com/andrevich" target="_blank">
+<img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" >
+</a>
+
+</br>
+<a href="https://nowpayments.io/donation?api_key=decbeb76-30f8-4c6d-ba40-2d2dec7fd888" target="_blank" rel="noreferrer noopener">
+   <img src="https://nowpayments.io/images/embeds/donation-button-white.svg" alt="Cryptocurrency & Bitcoin donation button by NOWPayments">
+</a>
 
 
