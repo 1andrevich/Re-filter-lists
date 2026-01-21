@@ -250,11 +250,12 @@ protocol bgp refilter {
 
 **Если этот проект вам полезен можете поддержать его звездой**:star2: либо по ссылкам: 
 
-<a href="https://www.buymeacoffee.com/andrevich" target="_blank">
-<img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" >
+<a href='https://ko-fi.com/D1D11SQNQD' target='_blank'>
+<img height='60' style='border:0px;height:60px;' src='https://storage.ko-fi.com/cdn/kofi5.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' />
 </a>
 
 </br>
+
 <a href="https://nowpayments.io/donation?api_key=decbeb76-30f8-4c6d-ba40-2d2dec7fd888" target="_blank" rel="noreferrer noopener">
    <img src="https://nowpayments.io/images/embeds/donation-button-white.svg" alt="Cryptocurrency & Bitcoin donation button by NOWPayments">
 </a>
