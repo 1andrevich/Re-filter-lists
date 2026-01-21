@@ -18,6 +18,7 @@ import gc
 import sys
 import time
 import ipaddress
+import random
 from pathlib import Path
 from tqdm import tqdm
 from colorama import init, Fore, Style, Back
@@ -54,8 +55,8 @@ DNS_SERVERS = [
     '8.26.56.26', '205.171.3.65', '216.146.35.35',
     '36.50.50.50', '185.228.168.9', '185.228.169.9',
     '9.9.9.9', '208.67.220.220','51.255.43.23',
-    '77.48.234.103', '204.15.148.186','74.113.101.251',
-    '14.198.168.140', '103.149.165.57', '92.205.63.50'
+    '77.48.234.103', '204.15.148.186',
+    '14.198.168.140', '103.149.165.57', '92.205.63.50',
     '177.174.20.65', '88.149.212.184', '211.35.20.27',
     '201.143.181.110', '200.39.23.4', '207.248.224.71', 
     '81.9.198.12', '88.202.185.165', '212.113.0.3',
@@ -66,6 +67,13 @@ DNS_SERVERS = [
     
 
 ]
+
+SAFETY_DNS_SERVERS = [
+    '1.1.1.1', '1.0.0.1', '8.8.8.8', '8.8.4.4', '9.9.9.9', '94.140.14.14'
+]
+
+SAFETY_DNS_DELAY = 0.2
+NO_NAMESERVERS_RECHECK_DELAY = 0.25
 
 # Substrings indicating parked NS (expanded)
 NS_FILTER_SUBSTRINGS = (
@@ -84,6 +92,7 @@ BATCH_SIZE = 2400
 DNS_TIMEOUT = 3.2
 HTTP_TIMEOUT = 3.2
 SESSION_COUNT = 8
+DNS_CONCURRENCY = 400
 
 # Statistics tracking
 stats = {
@@ -98,6 +107,18 @@ stats = {
 
 BANNED_REDIRECT_PREFIXES = ("ww25.", "ww38.")
 COMMON_SECOND_LEVEL_TLDS = {"co", "com", "org", "net", "gov", "ac", "edu", "mil"}
+WELL_KNOWN_DNS_IP_ALLOWLIST = {
+    "1.1.1.1": {"one.one.one.one"},
+    "1.0.0.1": {"one.one.one.one", "cloudflare-dns.com"},
+    "8.8.8.8": {"dns.google"},
+    "8.8.4.4": {"dns.google"},
+    "9.9.9.9": {"dns9.quad9.net", "dns.quad9.net"},
+    "149.112.112.112": {"dns.quad9.net"},
+    "94.140.14.14": {"dns.adguard.com"},
+    "94.140.15.15": {"dns.adguard.com"},
+    "208.67.222.222": {"resolver1.opendns.com"},
+    "208.67.220.220": {"resolver1.opendns.com"},
+}
 
 
 def get_registrable_domain(host: str) -> str:
@@ -240,8 +261,14 @@ def run_qc_check(script_dir: Path, output_files):
         status
     )
 
-# Global resolver (reuse sockets)
-global_resolver = dns.asyncresolver.Resolver(configure=False)
+DNS_SEMAPHORE = asyncio.Semaphore(DNS_CONCURRENCY)
+
+async def _dns_query(server: str, qname: str, record_type: str):
+    """Run a single DNS query using a dedicated resolver."""
+    async with DNS_SEMAPHORE:
+        resolver = dns.asyncresolver.Resolver(configure=False)
+        resolver.nameservers = [server]
+        return await resolver.resolve(qname, record_type, lifetime=DNS_TIMEOUT)
 
 
 async def _resolve_ns_single(label: str):
@@ -249,24 +276,64 @@ async def _resolve_ns_single(label: str):
     retries = 0
     last_reason = None
     last_server = None
+    last_exc_name = None
     while retries < len(DNS_SERVERS):
         try:
             idx = (hash(label) + retries) % len(DNS_SERVERS)
             last_server = DNS_SERVERS[idx]
-            global_resolver.nameservers = [last_server]
-            answer = await global_resolver.resolve(label, 'NS', lifetime=DNS_TIMEOUT)
+            answer = await _dns_query(last_server, label, 'NS')
+            return [str(rdata).lower() for rdata in answer], last_server, None, None
+        except (dns.resolver.Timeout, dns.resolver.NXDOMAIN, dns.resolver.NoNameservers,
+                dns.resolver.YXDOMAIN, dns.resolver.NoAnswer) as e:
+            last_reason = f"{type(e).__name__}: {str(e)[:80]}"
+            last_exc_name = type(e).__name__
+            retries += 1
+            await asyncio.sleep(0.01 + random.random() * 0.02)
+        except Exception as e:
+            stats['errors'] += 1
+            last_reason = f"{type(e).__name__}: {str(e)[:80]}"
+            last_exc_name = type(e).__name__
+            retries += 1
+            await asyncio.sleep(0.01 + random.random() * 0.02)
+    return None, last_server, last_reason, last_exc_name
+
+async def _safety_resolve_ns(label: str):
+    """Recheck NS using well-known resolvers to avoid false NXDOMAIN."""
+    last_reason = None
+    last_server = None
+    for server in SAFETY_DNS_SERVERS:
+        try:
+            last_server = server
+            answer = await _dns_query(server, label, 'NS')
             return [str(rdata).lower() for rdata in answer], last_server, None
         except (dns.resolver.Timeout, dns.resolver.NXDOMAIN, dns.resolver.NoNameservers,
                 dns.resolver.YXDOMAIN, dns.resolver.NoAnswer) as e:
             last_reason = f"{type(e).__name__}: {str(e)[:80]}"
-            retries += 1
-            await asyncio.sleep(0.005)
+            await asyncio.sleep(SAFETY_DNS_DELAY)
         except Exception as e:
             stats['errors'] += 1
             last_reason = f"{type(e).__name__}: {str(e)[:80]}"
-            retries += 1
-            await asyncio.sleep(0.005)
+            await asyncio.sleep(SAFETY_DNS_DELAY)
     return None, last_server, last_reason
+
+async def _recheck_ns_after_nonameservers(label: str, exclude_server: str | None = None):
+    """Recheck NS with a different resolver after NoNameservers."""
+    await asyncio.sleep(NO_NAMESERVERS_RECHECK_DELAY)
+    for server in SAFETY_DNS_SERVERS:
+        if server == exclude_server:
+            continue
+        try:
+            answer = await _dns_query(server, label, 'NS')
+            return [str(rdata).lower() for rdata in answer], server, None
+        except (dns.resolver.Timeout, dns.resolver.NXDOMAIN, dns.resolver.NoNameservers,
+                dns.resolver.YXDOMAIN, dns.resolver.NoAnswer) as e:
+            last_reason = f"{type(e).__name__}: {str(e)[:80]}"
+            await asyncio.sleep(SAFETY_DNS_DELAY)
+        except Exception as e:
+            stats['errors'] += 1
+            last_reason = f"{type(e).__name__}: {str(e)[:80]}"
+            await asyncio.sleep(SAFETY_DNS_DELAY)
+    return None, exclude_server, last_reason
 
 async def resolve_ns(domain: str):
     """Resolve NS, falling back to parent labels when necessary."""
@@ -277,16 +344,34 @@ async def resolve_ns(domain: str):
     current = labels[:]
     last_reason = None
     last_server = None
+    last_exc_name = None
     while current:
         candidate = '.'.join(current)
-        records, server_used, reason = await _resolve_ns_single(candidate)
+        records, server_used, reason, exc_name = await _resolve_ns_single(candidate)
         if records:
             return records, candidate, server_used, None
         last_reason = reason
         last_server = server_used
+        last_exc_name = exc_name
         if len(current) <= 2:
             break
         current = current[1:]
+    if last_exc_name in {"NXDOMAIN", "NoNameservers", "NoAnswer", "Timeout"}:
+        if last_exc_name == "NoNameservers":
+            recheck_records, recheck_server, recheck_reason = await _recheck_ns_after_nonameservers(
+                cleaned, last_server
+            )
+            if recheck_records:
+                return recheck_records, cleaned, recheck_server, None
+            if recheck_reason:
+                last_reason = f"{last_reason} | recheck {recheck_reason}"
+                last_server = recheck_server or last_server
+        safety_records, safety_server, safety_reason = await _safety_resolve_ns(cleaned)
+        if safety_records:
+            return safety_records, cleaned, safety_server, None
+        if safety_reason:
+            last_reason = f"{last_reason} | safety {safety_reason}"
+            last_server = safety_server or last_server
     return None, None, last_server, last_reason or "no NS records found"
 
 async def resolve_ip_records(domain: str) -> tuple[list[str], list[str]]:
@@ -299,19 +384,18 @@ async def resolve_ip_records(domain: str) -> tuple[list[str], list[str]]:
             try:
                 idx = (hash(f"{domain}-{record_type}") + retries) % len(DNS_SERVERS)
                 server = DNS_SERVERS[idx]
-                global_resolver.nameservers = [server]
-                answer = await global_resolver.resolve(domain, record_type, lifetime=DNS_TIMEOUT)
+                answer = await _dns_query(server, domain, record_type)
                 records.extend(str(rdata) for rdata in answer)
                 servers_used.append(server)
                 break
             except (dns.resolver.Timeout, dns.resolver.NXDOMAIN, dns.resolver.NoNameservers,
                     dns.resolver.YXDOMAIN, dns.resolver.NoAnswer):
                 retries += 1
-                await asyncio.sleep(0.005)
+                await asyncio.sleep(0.01 + random.random() * 0.02)
             except Exception:
                 stats['errors'] += 1
                 retries += 1
-                await asyncio.sleep(0.005)
+                await asyncio.sleep(0.01 + random.random() * 0.02)
     return records, servers_used
 
 def is_problematic_ip(ip_str: str) -> bool:
@@ -321,6 +405,20 @@ def is_problematic_ip(ip_str: str) -> bool:
         return True
     return (ip.is_private or ip.is_loopback or ip.is_multicast or ip.is_reserved or
             ip.is_unspecified or ip.is_link_local or getattr(ip, 'is_site_local', False))
+
+def is_well_known_dns_ip_mismatch(domain: str, ip_records: list[str]) -> tuple[bool, str]:
+    domain_lower = domain.lower().rstrip(".")
+    mismatched_ips = [
+        ip for ip in ip_records
+        if ip in WELL_KNOWN_DNS_IP_ALLOWLIST and domain_lower not in WELL_KNOWN_DNS_IP_ALLOWLIST[ip]
+    ]
+    if not mismatched_ips:
+        return False, ""
+    allowed_domains = {
+        d for ip in mismatched_ips for d in WELL_KNOWN_DNS_IP_ALLOWLIST.get(ip, set())
+    }
+    details = f"IPs: {', '.join(sorted(set(mismatched_ips)))} (allowed: {', '.join(sorted(allowed_domains))})"
+    return True, details
 
 
 async def check_domain(domain, sessions, pbar, pbar_lock: asyncio.Lock, 
@@ -366,6 +464,18 @@ async def check_domain(domain, sessions, pbar, pbar_lock: asyncio.Lock,
                     stats['incorrect'] += 1
                     server_info = f" [DNS {', '.join(sorted(set(ip_servers)))}]" if ip_servers else ""
                     details = f"IPs: {', '.join(bad_ips)}{server_info}"
+                    if ns_note:
+                        details = f"{details} {ns_note}"
+                    print_domain_status(domain, "incorrect", details)
+                    incorrect_file.write(domain + "\n")
+                    async with pbar_lock:
+                        pbar.update(1)
+                    return
+                mismatch, mismatch_details = is_well_known_dns_ip_mismatch(domain, ip_records)
+                if mismatch:
+                    stats['incorrect'] += 1
+                    server_info = f" [DNS {', '.join(sorted(set(ip_servers)))}]" if ip_servers else ""
+                    details = f"{mismatch_details}{server_info}"
                     if ns_note:
                         details = f"{details} {ns_note}"
                     print_domain_status(domain, "incorrect", details)
