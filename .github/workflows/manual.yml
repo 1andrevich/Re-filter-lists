@@ -40,7 +40,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: beta
-          branch: rkn-output-${{ env.DATE_TAG }}
+          branch: auto-build-${{ env.DATE_TAG }}
           commit-message: "Update domains.lst and ip.lst"
           title: "Update outputs ${{ env.DATE_TITLE }}"
           body: "Automated update of domains.lst and ip.lst."
