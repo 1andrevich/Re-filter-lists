@@ -164,6 +164,9 @@ def read_ips_from_file(file_path):
 def is_local_ip(ip):
     try:
         ip_obj = ipaddress.ip_network(ip, strict=False)
+        if (ip_obj.is_private or ip_obj.is_loopback or ip_obj.is_multicast or
+                ip_obj.is_reserved or ip_obj.is_unspecified or ip_obj.is_link_local):
+            return True
         for cidr in LOCAL_IP_CIDRS:
             if ip_obj.version == cidr.version and ip_obj.subnet_of(cidr):
                 return True
