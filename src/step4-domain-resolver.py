@@ -268,6 +268,15 @@ def is_trusted_domain(domain, asn):
     return False
 
 
+def is_problematic_ip(ip):
+    try:
+        ip_obj = ipaddress.ip_address(ip)
+    except ValueError:
+        return True
+    return (ip_obj.is_private or ip_obj.is_loopback or ip_obj.is_multicast or
+            ip_obj.is_reserved or ip_obj.is_unspecified or ip_obj.is_link_local)
+
+
 def resolve_domain(domain, error_logger, max_retries=MAX_RETRIES):
     # Resolve domain to IPs with punycode support and retries.
     ip_set = set()
@@ -280,6 +289,7 @@ def resolve_domain(domain, error_logger, max_retries=MAX_RETRIES):
     for _ in range(max_retries):
         try:
             ip_list = socket.gethostbyname_ex(domain)[2]
+            ip_list = [ip for ip in ip_list if not is_problematic_ip(ip)]
             ip_set.update(ip_list)
             logging.info("Resolved %s to IPs: %s", domain, ip_list)
         except socket.gaierror as exc:
