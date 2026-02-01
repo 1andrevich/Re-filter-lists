@@ -177,5 +177,5 @@ jobs:
       - name: Cleanup git url rewrite
         if: always()
         run: |
-          git config --global --unset-all url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf
-          git config --local --unset-all http.https://github.com/.extraheader
+          git config --global --unset-all url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf || true
+          git config --local --unset-all http.https://github.com/.extraheader || true
