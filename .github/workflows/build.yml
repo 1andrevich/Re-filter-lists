@@ -1,4 +1,4 @@
-name: Beta - Build domains_all, ipsum, XRay and Sing-Box Files
+name: Build domains_all, ipsum, XRay and Sing-Box Files
 
 permissions:
   contents: write
@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository (beta)
+    - name: Checkout repository
       uses: actions/checkout@v3
       with:
-        ref: beta
+        ref: main
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -160,7 +160,7 @@ jobs:
       run: |
         CURRENT_DATE=$(date +%d-%m-%Y)
         gh pr create \
-          --base beta \
+          --base main \
           --head "update-$CURRENT_DATE" \
           --title "$CURRENT_DATE Update" \
           --body "$CURRENT_DATE Automated update of domains_all.lst, ipsum.lst, and ooni_domains.lst."
@@ -189,8 +189,8 @@ jobs:
         CURRENT_TAG=$(date +%d%m%Y)
 
         # Format the release name and tag
-        RELEASE_NAME="Release $CURRENT_DATE (beta)"
-        TAG_NAME="${CURRENT_TAG}-beta"
+        RELEASE_NAME="Release $CURRENT_DATE"
+        TAG_NAME="${CURRENT_TAG}"
 
         # Export as environment variables
         echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
