@@ -69,6 +69,7 @@ jobs:
 
       - name: Write proxies from secret
         env:
+          IPINFO_TOKEN: ${{ secrets.IPINFO_TOKEN }}
           RKN_PROXIES: ${{ secrets.PROXIES }}
         run: |
           if [ -z "${RKN_PROXIES}" ]; then
