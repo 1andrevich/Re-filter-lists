@@ -118,6 +118,9 @@ jobs:
 
         # Run the generate-geoip-geosite script
         ./generate-geoip-geosite -i ./refilter -o ./refilter
+
+    - name: Prepare Amnezia JSON
+      run: python $GITHUB_WORKSPACE/src/amnezia/convert.py $GITHUB_WORKSPACE/sum/output/ipsum.lst $GITHUB_WORKSPACE/src/amnezia/ipsum-amnezia.json
       
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
@@ -134,6 +137,7 @@ jobs:
           src/sing-box-files/refilter/ruleset-domain-refilter_domains.json
           src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.srs
           src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.json
+          src/amnezia/ipsum-amnezia.json
           
     - name: Install GitHub CLI
       run: sudo apt-get install -y gh
