@@ -12,7 +12,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: beta
+          ref: main
           persist-credentials: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -135,7 +135,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: beta
+          ref: main
           path: repo
           persist-credentials: true
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -160,11 +160,11 @@ jobs:
           echo "DATE_TAG=${DATE_TAG}" >> $GITHUB_ENV
           echo "DATE_TITLE=${DATE_TITLE}" >> $GITHUB_ENV
 
-      - name: Create PR to beta with outputs
+      - name: Create PR to main with outputs
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: beta
+          base: main
           branch: auto-build-${{ env.DATE_TAG }}
           commit-message: "Update domains.lst and ip.lst"
           title: "Update outputs ${{ env.DATE_TITLE }}"
