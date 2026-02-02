@@ -1,4 +1,4 @@
-name: Build domains_all, ipsum, XRay and Sing-Box Files
+name: Legacy Build domains_all, ipsum, XRay and Sing-Box Files
 
 permissions:
   contents: write
@@ -16,6 +16,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        ref: legacy
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -146,9 +148,9 @@ jobs:
       run: |
         CURRENT_DATE=$(date +%d-%m-%Y)
         gh pr create \
-          --base main \
-          --head "update-$CURRENT_DATE" \
-          --title "$CURRENT_DATE Update" \
+          --base legacy \
+          --head "update-legacy-$CURRENT_DATE" \
+          --title "$CURRENT_DATE Update Legacy" \
           --body "$CURRENT_DATE Automated update of domains_all.lst, ipsum.lst, and ooni_domains.lst."
       
     - name: Upload Build Artifacts
@@ -182,8 +184,8 @@ jobs:
         CURRENT_TAG=$(date +%d%m%Y)
 
         # Format the release name and tag
-        RELEASE_NAME="Release $CURRENT_DATE"
-        TAG_NAME="$CURRENT_TAG"
+        RELEASE_NAME="Legacy Release $CURRENT_DATE"
+        TAG_NAME="$CURRENT_TAG-legacy"
 
         # Export as environment variables
         echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
@@ -204,7 +206,7 @@ jobs:
           ./src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.srs \
           ./src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.json \
           --title "$RELEASE_NAME" \
-          --notes "This is the automatic $RELEASE_NAME creation." \
+          --notes "This is the automatic Legacy $RELEASE_NAME creation." \
           --draft \
           --prerelease
       env:
