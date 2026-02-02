@@ -6,6 +6,8 @@ permissions:
 
 on:
   workflow_dispatch: # Allows manual trigger of the workflow
+  schedule:
+    - cron: '5 0 */6 * *' # Runs every 6th day at midnight UTC
 
 jobs:
   run-python-scripts:
