@@ -6,8 +6,6 @@ permissions:
 
 on:
   workflow_dispatch: # Allows manual trigger of the workflow
-  schedule:
-    - cron: '0 0 */6 * *' # Runs every 6th day at midnight UTC
 
 jobs:
   run-python-scripts:
@@ -16,11 +14,21 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        ref: main
 
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9'
+        python-version: '3.12'
+
+    - name: Install GitHub CLI
+      run: sudo apt-get install -y gh
+
+    - name: Authenticate GitHub CLI
+      run: gh auth setup-git
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Install dependencies
       run: |
@@ -72,7 +80,7 @@ jobs:
     - name: Install Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.22'
+        go-version: '1.24'
 
     - name: Prepare Xray-GeoIP
       run: |
@@ -127,19 +135,25 @@ jobs:
       run: |
         CURRENT_DATE=$(date +%d-%m-%Y)
         BRANCH="update-$CURRENT_DATE"
+
         cp $GITHUB_WORKSPACE/sum/output/domains_all.lst $GITHUB_WORKSPACE/domains_all.lst
         cp $GITHUB_WORKSPACE/sum/output/ipsum.lst $GITHUB_WORKSPACE/ipsum.lst
         cp $GITHUB_WORKSPACE/sum/input/ooni_domains.lst $GITHUB_WORKSPACE/ooni_domains.lst
+
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
         git checkout -b "$BRANCH"
         git add domains_all.lst ipsum.lst ooni_domains.lst
+
         if git diff --cached --quiet; then
           echo "No changes to commit."
           exit 0
         fi
+
         git commit -m "$CURRENT_DATE Update"
         git push -u origin "$BRANCH"
+
     - name: Create PR
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -150,6 +164,7 @@ jobs:
           --head "update-$CURRENT_DATE" \
           --title "$CURRENT_DATE Update" \
           --body "$CURRENT_DATE Automated update of domains_all.lst, ipsum.lst, and ooni_domains.lst."
+
       
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
@@ -167,14 +182,6 @@ jobs:
           src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.srs
           src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.json
           
-    - name: Install GitHub CLI
-      run: sudo apt-get install -y gh
-
-    - name: Authenticate GitHub CLI
-      run: gh auth setup-git
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Set Release Name and Tag
       run: |
         # Define the date
@@ -183,7 +190,7 @@ jobs:
 
         # Format the release name and tag
         RELEASE_NAME="Release $CURRENT_DATE"
-        TAG_NAME="$CURRENT_TAG"
+        TAG_NAME="${CURRENT_TAG}"
 
         # Export as environment variables
         echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
@@ -216,5 +223,3 @@ jobs:
         gh release view "$TAG_NAME"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-

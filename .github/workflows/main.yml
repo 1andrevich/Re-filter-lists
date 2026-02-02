@@ -4,15 +4,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  domains_ip_build_pipeline:
+  rkn_pipeline:
     runs-on: self-hosted
     timeout-minutes: 4800
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          ref: beta
+          ref: main
+          persist-credentials: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -83,9 +86,6 @@ jobs:
           python step3-content-check.py
         working-directory: src
 
-      - name: Remove proxies file
-        run: rm -f src/proxies.txt
-
       - name: Run Step 4 (domain resolver)
         run: |
           set -euo pipefail
@@ -110,8 +110,8 @@ jobs:
             exit 1
           fi
 
-      - name: Clear token for later steps
-        run: echo "IPINFO_TOKEN=" >> "$GITHUB_ENV"
+      - name: Remove proxies file
+        run: rm -f src/proxies.txt
 
       - name: Set PR date
         run: |
@@ -120,18 +120,6 @@ jobs:
           echo "DATE_TAG=${DATE_TAG}" >> $GITHUB_ENV
           echo "DATE_TITLE=${DATE_TITLE}" >> $GITHUB_ENV
 
-      - name: Create PR to beta with outputs
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: beta
-          branch: rkn-output-${{ env.DATE_TAG }}
-          commit-message: "Update domains.lst and ip.lst"
-          title: "Update outputs ${{ env.DATE_TITLE }}"
-          body: "Automated update of domains.lst and ip.lst."
-          add-paths: |
-            sum/input/domains.lst
-            sum/input/ip.lst
 
       - name: Upload build results
         uses: actions/upload-artifact@v4
@@ -140,3 +128,55 @@ jobs:
           path: |
             .
             !proxies.txt
+
+  create_pr:
+    needs: rkn_pipeline
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: repo
+          persist-credentials: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Ensure GitHub token is used for git operations
+        run: |
+          git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
+
+      - name: Copy input files into repo
+        run: |
+          SRC_DIR=/home/github/actions-runner/_work/Re-filter-lists/Re-filter-lists/sum/input
+          test -f "${SRC_DIR}/domains.lst"
+          test -f "${SRC_DIR}/ip.lst"
+          mkdir -p repo/sum/input
+          cp "${SRC_DIR}/domains.lst" repo/sum/input/domains.lst
+          cp "${SRC_DIR}/ip.lst" repo/sum/input/ip.lst
+
+      - name: Set PR date
+        run: |
+          DATE_TAG=$(date +%d%m%Y)
+          DATE_TITLE=$(date +%d-%m-%Y)
+          echo "DATE_TAG=${DATE_TAG}" >> $GITHUB_ENV
+          echo "DATE_TITLE=${DATE_TITLE}" >> $GITHUB_ENV
+
+      - name: Create PR to main with outputs
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
+          branch: auto-build-${{ env.DATE_TAG }}
+          commit-message: "Update domains.lst and ip.lst"
+          title: "Update outputs ${{ env.DATE_TITLE }}"
+          body: "Automated update of domains.lst and ip.lst."
+          add-paths: |
+            sum/input/domains.lst
+            sum/input/ip.lst
+          path: repo
+
+      - name: Cleanup git url rewrite
+        if: always()
+        run: |
+          git config --global --unset-all url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf || true
+          git config --local --unset-all http.https://github.com/.extraheader || true
