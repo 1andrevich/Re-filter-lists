@@ -128,7 +128,7 @@ jobs:
     - name: Stage root outputs for PR
       run: |
         CURRENT_DATE=$(date +%d-%m-%Y)
-        BRANCH="update-$CURRENT_DATE"
+        BRANCH="legacy-update-$CURRENT_DATE"
         cp $GITHUB_WORKSPACE/sum/output/domains_all.lst $GITHUB_WORKSPACE/domains_all.lst
         cp $GITHUB_WORKSPACE/sum/output/ipsum.lst $GITHUB_WORKSPACE/ipsum.lst
         cp $GITHUB_WORKSPACE/sum/input/ooni_domains.lst $GITHUB_WORKSPACE/ooni_domains.lst
@@ -140,7 +140,7 @@ jobs:
           echo "No changes to commit."
           exit 0
         fi
-        git commit -m "$CURRENT_DATE Update"
+        git commit -m "$CURRENT_DATE Update Legacy"
         git push -u origin "$BRANCH"
     - name: Create PR
       env:
