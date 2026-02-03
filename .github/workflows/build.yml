@@ -7,7 +7,7 @@ permissions:
 on:
   workflow_dispatch: # Allows manual trigger of the workflow
   schedule:
-    - cron: '0 0 */6 * *' # Runs every 6th day at midnight UTC
+    - cron: '0 0 */7 * *' # Runs every 6th day at midnight UTC
 
 jobs:
   run-python-scripts:
@@ -124,6 +124,15 @@ jobs:
 
         # Run the generate-geoip-geosite script
         ./generate-geoip-geosite -i ./refilter -o ./refilter
+        
+    - name: Install GitHub CLI
+      run: sudo apt-get install -y gh
+
+    - name: Authenticate GitHub CLI
+      run: gh auth setup-git
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
     - name: Stage root outputs for PR
       run: |
@@ -149,7 +158,7 @@ jobs:
         CURRENT_DATE=$(date +%d-%m-%Y)
         gh pr create \
           --base legacy \
-          --head "update-legacy-$CURRENT_DATE" \
+          --head "legacy-update-$CURRENT_DATE" \
           --title "$CURRENT_DATE Update Legacy" \
           --body "$CURRENT_DATE Automated update of domains_all.lst, ipsum.lst, and ooni_domains.lst."
       
@@ -169,14 +178,6 @@ jobs:
           src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.srs
           src/sing-box-files/refilter/ruleset-ip-refilter_ipsum.json
           
-    - name: Install GitHub CLI
-      run: sudo apt-get install -y gh
-
-    - name: Authenticate GitHub CLI
-      run: gh auth setup-git
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Set Release Name and Tag
       run: |
         # Define the date
