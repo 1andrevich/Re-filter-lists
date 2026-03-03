@@ -81,6 +81,10 @@ def fetch_and_process_ooni_domains(output_file):
                 if len(split_domain_labels(normalized_domain)) < 2:
                     logging.info(f"Skipping normalized single-label name: {normalized_domain} (from {domain})")
                     continue
+                # Exclude any .ru domains from output
+                if normalized_domain.lower().endswith('.ru'):
+                    logging.info(f"Skipping .ru domain: {normalized_domain}")
+                    continue
                 if normalized_domain not in domains:
                     domains.add(normalized_domain)
                     logging.info(f"Anomaly rate is high for the domain: {normalized_domain} - Adding to the list")
