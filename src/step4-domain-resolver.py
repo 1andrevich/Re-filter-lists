@@ -207,7 +207,6 @@ TRUSTED_ASNS = {
     13414,  # Twitter
     19679,  # Dropbox
     14492,  # LinkedIn
-    13238, # YANDEX LLC
 }
 
 HOSTING_ASNS = {
