@@ -35,7 +35,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install requests idna geoip2
+        python -m pip install requests idna geoip2 tqdm colorama
 
     - name: Prepare directories for build
       run: |
@@ -59,6 +59,9 @@ jobs:
 
     - name: Run IP Sum + ASN (Final) script (ipsum.lst)
       run: python "src/step 6 temp - summarization and ASN CIDRs.py"
+
+    - name: Run Step 7 temporal Bypass Filter (Final list correction)
+      run: python "src/step7-bypass-filter.py"
 
     - name: Verify ipsum.lst Output
       run: |
