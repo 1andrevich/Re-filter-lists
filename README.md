@@ -1,3 +1,4 @@
+<a href="https://t.me/one_andrevich"><img src="https://img.shields.io/badge/Telegram-Join-blue?style=flat-square&logo=telegram" alt="Telegram"></a>
 # Re:filter
 
 ![blackandgreen_A_preview_git](https://github.com/user-attachments/assets/8edb734f-7ddf-4dc8-a08f-9c94b707109f)
