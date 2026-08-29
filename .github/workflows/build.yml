@@ -6,6 +6,8 @@ permissions:
 
 on:
   workflow_dispatch: # Allows manual trigger of the workflow
+  schedule:
+    - cron: '5 0 */6 * *' # Runs every 6th day at midnight UTC
 
 jobs:
   run-python-scripts:
@@ -13,12 +15,12 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
       with:
         ref: main
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v6
       with:
         python-version: '3.12'
 
@@ -33,7 +35,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install requests idna geoip2
+        python -m pip install requests idna geoip2 tqdm colorama
 
     - name: Prepare directories for build
       run: |
@@ -58,6 +60,9 @@ jobs:
     - name: Run IP Sum + ASN (Final) script (ipsum.lst)
       run: python "src/step 6 temp - summarization and ASN CIDRs.py"
 
+    - name: Run Step 7 temporal Bypass Filter (Final list correction)
+      run: python "src/step7-bypass-filter.py"
+
     - name: Verify ipsum.lst Output
       run: |
         echo "Checking for ipsum.lst in sum/output:"
@@ -78,7 +83,7 @@ jobs:
         ls -la $GITHUB_WORKSPACE/sum/output
 
     - name: Install Go
-      uses: actions/setup-go@v4
+      uses: actions/setup-go@v6
       with:
         go-version: '1.24'
 
@@ -167,7 +172,7 @@ jobs:
 
       
     - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: build-results
         path: |
