@@ -1,0 +1,1046 @@
+[
+    {
+        "hostname": "abook-club.ru",
+        "ip": "185.155.96.196"
+    },
+    {
+        "hostname": "adguard.com",
+        "ip": "104.18.163.229"
+    },
+    {
+        "hostname": "afcs.dellcdn.com",
+        "ip": "2.23.197.134"
+    },
+    {
+        "hostname": "aftermarket.schaeffler.com",
+        "ip": "46.23.209.28"
+    },
+    {
+        "hostname": "aftermarket.zf.com",
+        "ip": "13.107.246.45"
+    },
+    {
+        "hostname": "alberta.ca",
+        "ip": "142.229.246.30"
+    },
+    {
+        "hostname": "anilibria.tv",
+        "ip": "104.21.235.98"
+    },
+    {
+        "hostname": "antizapret.prostovpn.org",
+        "ip": "195.123.208.131"
+    },
+    {
+        "hostname": "api.app.prod.grazie.aws.intellij.net",
+        "ip": "18.239.36.67"
+    },
+    {
+        "hostname": "api.github.com",
+        "ip": "140.82.121.6"
+    },
+    {
+        "hostname": "ai.com",
+        "ip": "188.114.97.3"
+    },
+    {
+        "hostname": "api.githubcopilot.com",
+        "ip": "140.82.112.21"
+    },
+    {
+        "hostname": "api.home-connect.com",
+        "ip": "3.120.60.175"
+    },
+    {
+        "hostname": "protonmail.ch",
+        "ip": "185.70.42.21"
+    },
+    {
+        "hostname": "api.radarr.video",
+        "ip": "188.114.96.3"
+    },
+    {
+        "hostname": "api.themoviedb.org",
+        "ip": "108.138.26.14"
+    },
+    {
+        "hostname": "aplawrence.com",
+        "ip": "35.212.37.82"
+    },
+    {
+        "hostname": "app.m3u.in",
+        "ip": "104.21.38.138"
+    },
+    {
+        "hostname": "app.paraswap.io",
+        "ip": "18.244.18.103"
+    },
+    {
+        "hostname": "app.zerossl.com",
+        "ip": "44.208.74.59"
+    },
+    {
+        "hostname": "appstorrent.ru",
+        "ip": "104.21.39.78"
+    },
+    {
+        "hostname": "apt.releases.hashicorp.com",
+        "ip": "52.222.214.58"
+    },
+    {
+        "hostname": "aqicn.org",
+        "ip": "172.105.192.79"
+    },
+    {
+        "hostname": "arc.intel.com",
+        "ip": "13.91.95.74"
+    },
+    {
+        "hostname": "artifacts.elastic.co",
+        "ip": "34.120.127.130"
+    },
+    {
+        "hostname": "atlassian.com",
+        "ip": "13.32.27.7"
+    },
+    {
+        "hostname": "auth.grazie.ai",
+        "ip": "54.77.161.72"
+    },
+    {
+        "hostname": "bard.google.com",
+        "ip": "216.58.206.46"
+    },
+    {
+        "hostname": "bbci.co.uk",
+        "ip": "212.58.244.210"
+    },
+    {
+        "hostname": "bitbucket.org",
+        "ip": "185.166.143.50"
+    },
+    {
+        "hostname": "bitcoin.org",
+        "ip": "188.114.96.3"
+    },
+    {
+        "hostname": "bitru.org",
+        "ip": "104.21.90.15"
+    },
+    {
+        "hostname": "booktracker.org",
+        "ip": "45.137.66.127"
+    },
+    {
+        "hostname": "boosteroid.com",
+        "ip": "104.26.3.225"
+    },
+    {
+        "hostname": "bosch-home.com",
+        "ip": "213.183.31.3"
+    },
+    {
+        "hostname": "bradyid.com",
+        "ip": "13.107.253.51"
+    },
+    {
+        "hostname": "builds.parsec.app",
+        "ip": "104.18.0.181"
+    },
+    {
+        "hostname": "canva.com",
+        "ip": "104.16.103.112"
+    },
+    {
+        "hostname": "cdn.id.supercell.com",
+        "ip": "18.245.31.23"
+    },
+    {
+        "hostname": "cdn.oaistatic.com",
+        "ip": "104.18.41.158"
+    },
+    {
+        "hostname": "certifytheweb.com",
+        "ip": "104.26.12.74"
+    },
+    {
+        "hostname": "chatgpt.com",
+        "ip": "104.18.32.47"
+    },
+    {
+        "hostname": "checkout.buckaroo.nl",
+        "ip": "18.193.5.27"
+    },
+    {
+        "hostname": "chess.com",
+        "ip": "34.117.44.137"
+    },
+    {
+        "hostname": "cisco.com",
+        "ip": "72.163.4.185"
+    },
+    {
+        "hostname": "citrix.com",
+        "ip": "54.86.126.30"
+    },
+    {
+        "hostname": "clamav.net",
+        "ip": "198.148.79.54"
+    },
+    {
+        "hostname": "cloud.mongodb.com",
+        "ip": "34.195.55.18"
+    },
+    {
+        "hostname": "cloudflare-dns.com",
+        "ip": "104.16.249.249"
+    },
+    {
+        "hostname": "colta.ru",
+        "ip": "104.21.65.143"
+    },
+    {
+        "hostname": "community.cisco.com",
+        "ip": "108.138.7.65"
+    },
+    {
+        "hostname": "copilot-proxy.githubusercontent.com",
+        "ip": "20.199.39.224"
+    },
+    {
+        "hostname": "crunchyroll.com",
+        "ip": "104.18.34.202"
+    },
+    {
+        "hostname": "d.docs.live.net",
+        "ip": "13.107.42.12"
+    },
+    {
+        "hostname": "database.clamav.net",
+        "ip": "104.16.218.84"
+    },
+    {
+        "hostname": "deezer.com",
+        "ip": "13.227.219.34"
+    },
+    {
+        "hostname": "tailscale.com",
+        "ip": "76.76.21.21"
+    },
+    {
+        "hostname": "dl.tailscale.com",
+        "ip": "109.105.218.17"
+    },
+    {
+        "hostname": "dell.com",
+        "ip": "143.166.136.12"
+    },
+    {
+        "hostname": "deviantart.com",
+        "ip": "13.224.189.84"
+    },
+    {
+        "hostname": "devops.com",
+        "ip": "104.22.50.199"
+    },
+    {
+        "hostname": "digitalocean.com",
+        "ip": "104.19.173.68"
+    },
+    {
+        "hostname": "dist.torproject.org",
+        "ip": "204.8.99.146"
+    },
+    {
+        "hostname": "docker.elastic.co",
+        "ip": "34.68.230.202"
+    },
+    {
+        "hostname": "docs.redis.com",
+        "ip": "172.67.15.16"
+    },
+    {
+        "hostname": "documentation.meraki.com",
+        "ip": "13.33.187.85"
+    },
+    {
+        "hostname": "download.jetbrains.com",
+        "ip": "18.239.18.124"
+    },
+    {
+        "hostname": "download.lenovo.com",
+        "ip": "23.212.88.224"
+    },
+    {
+        "hostname": "download.screamingfrog.co.uk",
+        "ip": "192.124.249.107"
+    },
+    {
+        "hostname": "download.wetransfer.com",
+        "ip": "18.165.140.18"
+    },
+    {
+        "hostname": "discord.gg",
+        "ip": "162.159.135.234"
+    },
+    {
+        "hostname": "discord.com",
+        "ip": "162.159.137.232"
+    },
+    {
+        "hostname": "dis.gd",
+        "ip": "104.18.4.161"
+    },
+    {
+        "hostname": "discordstatus.com",
+        "ip": "143.204.215.42"
+    },
+    {
+        "hostname": "discordcdn.com",
+        "ip": "162.159.129.234"
+    },
+    {
+        "hostname": "discord.media",
+        "ip": "162.159.129.235"
+    },
+    {
+        "hostname": "dw.com",
+        "ip": "194.55.30.46"
+    },
+    {
+        "hostname": "edge.microsoft.com",
+        "ip": "204.79.197.239"
+    },
+    {
+        "hostname": "edgeservices.bing.com",
+        "ip": "2.23.209.133"
+    },
+    {
+        "hostname": "ej.ru",
+        "ip": "213.166.70.101"
+    },
+    {
+        "hostname": "etsy.com",
+        "ip": "151.101.65.224"
+    },
+    {
+        "hostname": "event.on24.com",
+        "ip": "199.83.44.71"
+    },
+    {
+        "hostname": "exler.ru",
+        "ip": "5.9.141.28"
+    },
+    {
+        "hostname": "fex.net",
+        "ip": "104.21.90.161"
+    },
+    {
+        "hostname": "files.oaiusercontent.com",
+        "ip": "172.64.144.52"
+    },
+    {
+        "hostname": "filmix.biz",
+        "ip": "31.222.238.164"
+    },
+    {
+        "hostname": "flibusta.is",
+        "ip": "179.43.150.83"
+    },
+    {
+        "hostname": "fluke.com",
+        "ip": "104.18.40.113"
+    },
+    {
+        "hostname": "fork.pet",
+        "ip": "172.67.196.175"
+    },
+    {
+        "hostname": "forklog.com",
+        "ip": "46.101.169.75"
+    },
+    {
+        "hostname": "formula1.com",
+        "ip": "99.83.136.94"
+    },
+    {
+        "hostname": "forum.voynaplemyon.com",
+        "ip": "212.48.106.7"
+    },
+    {
+        "hostname": "fw-download.ubnt.com",
+        "ip": "18.245.60.15"
+    },
+    {
+        "hostname": "fw-update.ubnt.com",
+        "ip": "54.244.80.179"
+    },
+    {
+        "hostname": "gallery.zetalliance.org",
+        "ip": "166.70.53.121"
+    },
+    {
+        "hostname": "game.brawlstarsgame.com",
+        "ip": "44.241.61.155"
+    },
+    {
+        "hostname": "geni.us",
+        "ip": "172.105.69.103"
+    },
+    {
+        "hostname": "genius.com",
+        "ip": "104.18.22.208"
+    },
+    {
+        "hostname": "gitlab.io",
+        "ip": "188.114.96.3"
+    },
+    {
+        "hostname": "gllto.glpals.com",
+        "ip": "68.232.34.9"
+    },
+    {
+        "hostname": "gnome-look.org",
+        "ip": "138.68.89.1"
+    },
+    {
+        "hostname": "googletagmanager.com",
+        "ip": "142.250.186.104"
+    },
+    {
+        "hostname": "gordonua.com",
+        "ip": "104.22.5.247"
+    },
+    {
+        "hostname": "grammarly.com",
+        "ip": "18.239.18.78"
+    },
+    {
+        "hostname": "grazie.ai",
+        "ip": "34.78.67.165"
+    },
+    {
+        "hostname": "g2a.com",
+        "ip": "104.22.62.240"
+    },
+    {
+        "hostname": "habr.com",
+        "ip": "178.248.237.68"
+    },
+    {
+        "hostname": "helm.releases.hashicorp.com",
+        "ip": "52.222.214.115"
+    },
+    {
+        "hostname": "hyperhost.ua",
+        "ip": "104.26.11.84"
+    },
+    {
+        "hostname": "ichef.bbci.co.uk",
+        "ip": "184.28.88.155"
+    },
+    {
+        "hostname": "id.cisco.com",
+        "ip": "2.18.64.32"
+    },
+    {
+        "hostname": "iichan.hk",
+        "ip": "193.233.63.14"
+    },
+    {
+        "hostname": "image.tmdb.org",
+        "ip": "138.199.37.227"
+    },
+    {
+        "hostname": "intel.com",
+        "ip": "13.91.95.74"
+    },
+    {
+        "hostname": "kemono.party",
+        "ip": "190.115.31.142"
+    },
+    {
+        "hostname": "kpapp.link",
+        "ip": "188.114.96.3"
+    },
+    {
+        "hostname": "lenovo.com",
+        "ip": "23.46.71.93"
+    },
+    {
+        "hostname": "lib.rus.ec",
+        "ip": "185.39.18.98"
+    },
+    {
+        "hostname": "linuxiac.com",
+        "ip": "188.114.97.3"
+    },
+    {
+        "hostname": "localbitcoins.com",
+        "ip": "104.20.65.21"
+    },
+    {
+        "hostname": "m.strava.com",
+        "ip": "18.238.243.35"
+    },
+    {
+        "hostname": "macpaw.com",
+        "ip": "172.64.147.102"
+    },
+    {
+        "hostname": "macvendors.com",
+        "ip": "188.114.97.3"
+    },
+    {
+        "hostname": "malwarebytes.com",
+        "ip": "192.0.66.233"
+    },
+    {
+        "hostname": "master.qt.io",
+        "ip": "77.86.162.1"
+    },
+    {
+        "hostname": "mattermost.com",
+        "ip": "141.193.213.20"
+    },
+    {
+        "hostname": "medium.com",
+        "ip": "162.159.152.4"
+    },
+    {
+        "hostname": "megapeer.ru",
+        "ip": "46.148.26.145"
+    },
+    {
+        "hostname": "memohrc.org",
+        "ip": "188.114.97.3"
+    },
+    {
+        "hostname": "metacritic.com",
+        "ip": "199.232.208.194"
+    },
+    {
+        "hostname": "mobile.events.data.microsoft.com",
+        "ip": "52.168.117.170"
+    },
+    {
+        "hostname": "monster.ie",
+        "ip": "208.71.199.147"
+    },
+    {
+        "hostname": "mouser.com",
+        "ip": "12.5.163.52"
+    },
+    {
+        "hostname": "mrakopedia.net",
+        "ip": "188.114.96.3"
+    },
+    {
+        "hostname": "netflix.com",
+        "ip": "52.214.181.141"
+    },
+    {
+        "hostname": "nih.gov",
+        "ip": "156.40.212.210"
+    },
+    {
+        "hostname": "nordvpn.com",
+        "ip": "104.16.208.203"
+    },
+    {
+        "hostname": "notion.com",
+        "ip": "104.18.41.2"
+    },
+    {
+        "hostname": "ntc.party",
+        "ip": "130.255.77.28"
+    },
+    {
+        "hostname": "nyaa.si",
+        "ip": "186.2.163.20"
+    },
+    {
+        "hostname": "oaistatic.com",
+        "ip": "172.64.146.98"
+    },
+    {
+        "hostname": "oasis.app",
+        "ip": "143.204.98.16"
+    },
+    {
+        "hostname": "omv-extras.org",
+        "ip": "64.52.108.32"
+    },
+    {
+        "hostname": "onlineradiobox.com",
+        "ip": "104.26.5.222"
+    },
+    {
+        "hostname": "onlinesim.ru",
+        "ip": "185.104.210.36"
+    },
+    {
+        "hostname": "openai.com",
+        "ip": "104.18.33.45"
+    },
+    {
+        "hostname": "chat.openai.com",
+        "ip": "172.64.150.28"
+    },
+    {
+        "hostname": "api.openai.com",
+        "ip": "172.66.0.243"
+    },
+    {
+        "hostname": "openwrt.wk.cz",
+        "ip": "172.67.134.27"
+    },
+    {
+        "hostname": "openai.com.cdn.cloudflare.net",
+        "ip": "172.64.154.211"
+    },
+    {
+        "hostname": "openaicomproductionae4b.blob.core.windows.net",
+        "ip": "20.60.30.68"
+    },
+    {
+        "hostname": "openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net",
+        "ip": "13.107.246.45"
+    },
+    {
+        "hostname": "openaiapi-site.azureedge.net",
+        "ip": "13.107.246.67"
+    },
+    {
+        "hostname": "os.mbed.com",
+        "ip": "44.231.253.30"
+    },
+    {
+        "hostname": "packages.gitlab.com",
+        "ip": "172.64.148.245"
+    },
+    {
+        "hostname": "pandasecurity.com",
+        "ip": "91.216.218.44"
+    },
+    {
+        "hostname": "path3.xtracloud.net",
+        "ip": "65.9.66.122"
+    },
+    {
+        "hostname": "patreon.com",
+        "ip": "104.16.24.14"
+    },
+    {
+        "hostname": "pay.buckaroo.nl",
+        "ip": "3.66.136.126"
+    },
+    {
+        "hostname": "paypal.com",
+        "ip": "151.101.129.21"
+    },
+    {
+        "hostname": "pb.wtf",
+        "ip": "188.114.96.3"
+    },
+    {
+        "hostname": "pcbway.com",
+        "ip": "35.83.72.93"
+    },
+    {
+        "hostname": "pcbway.ru",
+        "ip": "54.190.201.47"
+    },
+    {
+        "hostname": "piccy.info",
+        "ip": "94.130.182.82"
+    },
+    {
+        "hostname": "pixiv.net",
+        "ip": "210.140.92.183"
+    },
+    {
+        "hostname": "production-openaicom-storage.azureedge.net",
+        "ip": "13.107.246.67"
+    },
+    {
+        "hostname": "plab.site",
+        "ip": "185.61.148.21"
+    },
+    {
+        "hostname": "platform.twitter.com",
+        "ip": "146.75.52.157"
+    },
+    {
+        "hostname": "plugins.jetbrains.com",
+        "ip": "18.238.243.104"
+    },
+    {
+        "hostname": "polit.ru",
+        "ip": "84.246.85.45"
+    },
+    {
+        "hostname": "pornolab.net",
+        "ip": "185.110.92.41"
+    },
+    {
+        "hostname": "portal.bgpmon.net",
+        "ip": "3.214.171.46"
+    },
+    {
+        "hostname": "protonmail.com",
+        "ip": "185.70.42.12"
+    },
+    {
+        "hostname": "quora.com",
+        "ip": "52.70.79.118"
+    },
+    {
+        "hostname": "radarr.servarr.com",
+        "ip": "188.114.97.3"
+    },
+    {
+        "hostname": "raw-data.gitlab.io",
+        "ip": "35.185.44.232"
+    },
+    {
+        "hostname": "redis.com",
+        "ip": "45.60.121.1"
+    },
+    {
+        "hostname": "redtube.com",
+        "ip": "66.254.114.238"
+    },
+    {
+        "hostname": "refactoring.guru",
+        "ip": "172.67.222.11"
+    },
+    {
+        "hostname": "refinitiv.com",
+        "ip": "159.220.50.88"
+    },
+    {
+        "hostname": "registry.terraform.io",
+        "ip": "18.245.60.125"
+    },
+    {
+        "hostname": "releases.hashicorp.com",
+        "ip": "13.33.187.98"
+    },
+    {
+        "hostname": "repo.mongodb.org",
+        "ip": "99.86.4.24"
+    },
+    {
+        "hostname": "republic.ru",
+        "ip": "95.217.171.168"
+    },
+    {
+        "hostname": "resp.app",
+        "ip": "172.67.178.171"
+    },
+    {
+        "hostname": "rpm.grafana.com",
+        "ip": "151.101.2.217"
+    },
+    {
+        "hostname": "ru.depositphotos.com",
+        "ip": "135.84.52.7"
+    },
+    {
+        "hostname": "ru.iherb.com",
+        "ip": "104.18.38.11"
+    },
+    {
+        "hostname": "rus.delfi.lv",
+        "ip": "104.22.38.138"
+    },
+    {
+        "hostname": "saverudata.info",
+        "ip": "188.114.97.3"
+    },
+    {
+        "hostname": "searchfloor.org",
+        "ip": "104.21.43.197"
+    },
+    {
+        "hostname": "seedoff.zannn.top",
+        "ip": "172.67.172.111"
+    },
+    {
+        "hostname": "semnasem.org",
+        "ip": "172.67.210.188"
+    },
+    {
+        "hostname": "sentry.io",
+        "ip": "35.186.247.156"
+    },
+    {
+        "hostname": "singlekey-id.com",
+        "ip": "20.101.240.212"
+    },
+    {
+        "hostname": "skladchik.com",
+        "ip": "188.114.96.3"
+    },
+    {
+        "hostname": "skyscanner.com",
+        "ip": "76.223.21.241"
+    },
+    {
+        "hostname": "slideshare.net",
+        "ip": "151.101.194.152"
+    },
+    {
+        "hostname": "soapui.org",
+        "ip": "3.132.62.17"
+    },
+    {
+        "hostname": "software.cisco.com",
+        "ip": "23.215.17.26"
+    },
+    {
+        "hostname": "soundcloud.com",
+        "ip": "18.238.243.27"
+    },
+    {
+        "hostname": "spotify.com",
+        "ip": "35.186.224.24"
+    },
+    {
+        "hostname": "st.kinovod.net",
+        "ip": "188.40.132.87"
+    },
+    {
+        "hostname": "static.files.bbci.co.uk",
+        "ip": "184.28.88.155"
+    },
+    {
+        "hostname": "static.rutracker.cc",
+        "ip": "104.21.50.150"
+    },
+    {
+        "hostname": "strava.com",
+        "ip": "18.239.18.85"
+    },
+    {
+        "hostname": "stulchik.net",
+        "ip": "163.172.118.121"
+    },
+    {
+        "hostname": "support.cambiumnetworks.com",
+        "ip": "50.19.113.66"
+    },
+    {
+        "hostname": "support.huawei.com",
+        "ip": "2.16.202.74"
+    },
+    {
+        "hostname": "support.ruckuswireless.com",
+        "ip": "104.22.52.115"
+    },
+    {
+        "hostname": "swagger.io",
+        "ip": "172.66.0.69"
+    },
+    {
+        "hostname": "sysdig.com",
+        "ip": "141.193.213.21"
+    },
+    {
+        "hostname": "terraform.io",
+        "ip": "76.76.21.21"
+    },
+    {
+        "hostname": "themoviedb.org",
+        "ip": "3.160.150.117"
+    },
+    {
+        "hostname": "tidal.com",
+        "ip": "18.239.94.7"
+    },
+    {
+        "hostname": "tiktok.com",
+        "ip": "18.239.18.77"
+    },
+    {
+        "hostname": "timberland.com",
+        "ip": "104.102.43.250"
+    },
+    {
+        "hostname": "tmdb.org",
+        "ip": "3.160.150.3"
+    },
+    {
+        "hostname": "tokenized.play.google.com",
+        "ip": "64.233.184.92"
+    },
+    {
+        "hostname": "tools.cisco.com",
+        "ip": "72.163.4.38"
+    },
+    {
+        "hostname": "torrent.by",
+        "ip": "185.43.220.240"
+    },
+    {
+        "hostname": "tr.anidub.com",
+        "ip": "172.67.139.60"
+    },
+    {
+        "hostname": "tracker.opentrackr.org",
+        "ip": "93.158.213.92"
+    },
+    {
+        "hostname": "tutanota.com",
+        "ip": "185.205.69.12"
+    },
+    {
+        "hostname": "ufile.io",
+        "ip": "104.27.205.87"
+    },
+    {
+        "hostname": "underver.se",
+        "ip": "172.67.197.161"
+    },
+    {
+        "hostname": "unfiltered.adguard-dns.com",
+        "ip": "94.140.14.141"
+    },
+    {
+        "hostname": "unian.net",
+        "ip": "172.67.38.10"
+    },
+    {
+        "hostname": "uniongang.tv",
+        "ip": "72.52.179.174"
+    },
+    {
+        "hostname": "vectorworks.net",
+        "ip": "3.218.91.182"
+    },
+    {
+        "hostname": "velocidrone.com",
+        "ip": "3.71.101.95"
+    },
+    {
+        "hostname": "veritas.com",
+        "ip": "2.17.179.149"
+    },
+    {
+        "hostname": "vhd.zetflix.online",
+        "ip": "104.21.234.101"
+    },
+    {
+        "hostname": "vipdrive.net",
+        "ip": "46.19.138.69"
+    },
+    {
+        "hostname": "vrv.co",
+        "ip": "18.66.147.7"
+    },
+    {
+        "hostname": "vyos.io",
+        "ip": "104.18.8.215"
+    },
+    {
+        "hostname": "watchguard.com",
+        "ip": "54.212.248.139"
+    },
+    {
+        "hostname": "weather.com",
+        "ip": "104.102.50.82"
+    },
+    {
+        "hostname": "weblance.com.ua",
+        "ip": "91.200.40.44"
+    },
+    {
+        "hostname": "welt.de",
+        "ip": "195.50.178.200"
+    },
+    {
+        "hostname": "wetransfer.com",
+        "ip": "143.204.98.97"
+    },
+    {
+        "hostname": "wheather.com",
+        "ip": "18.158.212.228"
+    },
+    {
+        "hostname": "windguru.cz",
+        "ip": "82.208.41.65"
+    },
+    {
+        "hostname": "wixmp.com",
+        "ip": "185.230.63.171"
+    },
+    {
+        "hostname": "wunderground.com",
+        "ip": "104.102.50.82"
+    },
+    {
+        "hostname": "www.analog.com",
+        "ip": "23.206.18.229"
+    },
+    {
+        "hostname": "www.hetzner.com",
+        "ip": "213.133.116.44"
+    },
+    {
+        "hostname": "www.hrw.org",
+        "ip": "23.185.0.2"
+    },
+    {
+        "hostname": "www.microchip.com",
+        "ip": "23.206.19.23"
+    },
+    {
+        "hostname": "www.postfix.org",
+        "ip": "65.108.3.114"
+    },
+    {
+        "hostname": "www.qualcomm.com",
+        "ip": "104.18.43.65"
+    },
+    {
+        "hostname": "www.smashwords.com",
+        "ip": "23.253.20.116"
+    },
+    {
+        "hostname": "www.stalker2.com",
+        "ip": "104.26.6.136"
+    },
+    {
+        "hostname": "www.support.xerox.com",
+        "ip": "2.18.64.26"
+    },
+    {
+        "hostname": "www.ti.com",
+        "ip": "23.215.17.147"
+    },
+    {
+        "hostname": "www.wikiart.org",
+        "ip": "188.114.96.3"
+    },
+    {
+        "hostname": "www.wunderground.com",
+        "ip": "104.102.50.82"
+    },
+    {
+        "hostname": "xhamster.com",
+        "ip": "104.17.35.109"
+    },
+    {
+        "hostname": "xhamsterlive.com",
+        "ip": "104.17.111.106"
+    },
+    {
+        "hostname": "znanija.com",
+        "ip": "104.17.193.8"
+    },
+    {
+        "hostname": "zohomail.com",
+        "ip": "136.143.190.241"
+    }
+]
